@@ -2,5 +2,10 @@
 export default defineNuxtConfig({
   plugins: [],
   modules: ['nuxt-quasar-ui'],
-  quasar: {},
+  quasar: {
+    lang: 'ko-KR',
+    extras: {
+      fontIcons: ['material-icons'],
+    },
+  },
 });
