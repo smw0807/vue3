@@ -2,4 +2,5 @@
 export default defineNuxtConfig({
   plugins: [],
   modules: ['nuxt-quasar-ui'],
+  quasar: {},
 });
