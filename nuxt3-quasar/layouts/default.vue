@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import type { Ref } from 'vue';
-import { fabYoutube } from '@quasar/extras/fontawesome-v6';
 
 const leftDrawerOpen: Ref<boolean> = ref(false);
-const search: Ref<string> = ref('');
 
 const toggleLeftDrawer = (): void => {
   leftDrawerOpen.value = !leftDrawerOpen.value;
@@ -22,7 +20,6 @@ const links2 = [
   { icon: 'thumb_up_alt', text: 'Liked videos' },
 ];
 const links3 = [
-  { icon: fabYoutube, text: 'YouTube Premium' },
   { icon: 'local_movies', text: 'Movies & Shows' },
   { icon: 'videogame_asset', text: 'Gaming' },
   { icon: 'live_tv', text: 'Live' },
@@ -33,25 +30,11 @@ const links4 = [
   { icon: 'help', text: 'Help' },
   { icon: 'feedback', text: 'Send feedback' },
 ];
-const buttons1 = [
-  { text: 'About' },
-  { text: 'Press' },
-  { text: 'Copyright' },
-  { text: 'Contact us' },
-  { text: 'Creators' },
-  { text: 'Advertise' },
-  { text: 'Developers' },
-];
-const buttons2 = [
-  { text: 'Terms' },
-  { text: 'Privacy' },
-  { text: 'Policy & Safety' },
-  { text: 'Test new features' },
-];
 </script>
 
 <template>
   <q-layout view="hHh lpR fFf" class="bg-grey-1">
+    <!-- 헤더 -->
     <q-header elevated class="bg-white text-grey-8 q-py-xs" height-hint="58">
       <q-toolbar>
         <q-btn
@@ -64,31 +47,13 @@ const buttons2 = [
         />
 
         <q-btn flat no-caps no-wrap class="q-ml-xs" v-if="$q.screen.gt.xs">
-          <q-icon :name="fabYoutube" color="red" size="28px" />
+          <q-avatar size="25px">
+            <img src="favicon.ico" />
+          </q-avatar>
           <q-toolbar-title shrink class="text-weight-bold">
-            YouTube
+            Nuxt3
           </q-toolbar-title>
         </q-btn>
-
-        <q-space />
-
-        <div class="YL__toolbar-input-container row no-wrap">
-          <q-input
-            dense
-            outlined
-            square
-            v-model="search"
-            placeholder="Search"
-            class="bg-white col"
-          />
-          <q-btn
-            class="YL__toolbar-input-btn"
-            color="grey-3"
-            text-color="grey-8"
-            icon="search"
-            unelevated
-          />
-        </div>
 
         <q-space />
 
@@ -137,6 +102,7 @@ const buttons2 = [
       </q-toolbar>
     </q-header>
 
+    <!-- 사이드 메뉴 -->
     <q-drawer
       v-model="leftDrawerOpen"
       show-if-above
@@ -168,8 +134,8 @@ const buttons2 = [
 
           <q-separator class="q-mt-md q-mb-xs" />
 
-          <q-item-label header class="text-weight-bold text-uppercase">
-            More from Youtube
+          <q-item-label header class="text-weight-bold">
+            FireBase
           </q-item-label>
 
           <q-item v-for="link in links3" :key="link.text" v-ripple clickable>
@@ -193,37 +159,15 @@ const buttons2 = [
           </q-item>
 
           <q-separator class="q-mt-md q-mb-lg" />
-
-          <div class="q-px-md text-grey-9">
-            <div class="row items-center q-gutter-x-sm q-gutter-y-xs">
-              <a
-                v-for="button in buttons1"
-                :key="button.text"
-                class="YL__drawer-footer-link"
-                href="javascript:void(0)"
-              >
-                {{ button.text }}
-              </a>
-            </div>
-          </div>
-          <div class="q-py-md q-px-md text-grey-9">
-            <div class="row items-center q-gutter-x-sm q-gutter-y-xs">
-              <a
-                v-for="button in buttons2"
-                :key="button.text"
-                class="YL__drawer-footer-link"
-                href="javascript:void(0)"
-              >
-                {{ button.text }}
-              </a>
-            </div>
-          </div>
         </q-list>
       </q-scroll-area>
     </q-drawer>
 
+    <!-- 컨텐츠 표시 영역 -->
     <q-page-container>
-      <slot />
+      <q-page padding>
+        <slot />
+      </q-page>
     </q-page-container>
   </q-layout>
 </template>
