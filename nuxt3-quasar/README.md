@@ -1,42 +1,13 @@
-# Nuxt 3 Minimal Starter
+# Nuxt3 + Quasar + Firebase + TypeScript
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+넉스트3 경험해볼 겸 만든 프로젝트  
+넉스트 파이어베이스 모듈을 이용해 파이어베이스를 사용해서 기능 이것저것 만들어서 넣어볼 예정
 
-## Setup
+# 참고사이트
 
-Make sure to install the dependencies:
-
-```bash
-# yarn
-yarn install
-
-# npm
-npm install
-
-# pnpm
-pnpm install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`
-
-```bash
-npm run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-npm run build
-```
-
-Locally preview production build:
-
-```bash
-npm run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+1. 넉스트 공식홈페이지
+   - https://nuxt.com/
+2. 퀘이사 디자인 프레임워크
+   - https://quasar.dev/
+3. 파이어베이스 넉스트 모듈 Vuefire
+   - https://nuxt.com/modules/vuefire
