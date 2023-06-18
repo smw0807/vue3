@@ -1,4 +1,28 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { onMounted } from 'vue';
+import { useFirestore, useDocument, useCollection } from 'vuefire';
+import {
+  doc,
+  collection,
+  DocumentData,
+  getDoc,
+  query,
+} from 'firebase/firestore';
+
+const db = useFirestore();
+const collectionName = 'test-board';
+
+/**
+ * 페이지 새로고침 시 파이어베이스 api 요청 url과 라우터 url이 충돌되는 것 같음
+ * databaseURL 옵션도 줬는데 뭐가 문제인지 파악해야함...
+ */
+const docData = useCollection(collection(db, collectionName));
+console.log(docData);
+onMounted(async () => {
+  // const docRef = doc(db, "cities", "SF");
+  // const docSnap = await getDoc(docRef);
+});
+</script>
 <template>
   <q-card dark bordered class="bg-brown-7 my-card">
     <q-card-section>
