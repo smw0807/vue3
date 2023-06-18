@@ -8,6 +8,7 @@
 1. 넉스트 공식홈페이지
    - https://nuxt.com/
    - env 관련 : https://nuxt.com/docs/guide/directory-structure/env
+   - nuxt.config.ts : https://nuxt.com/docs/api/configuration/nuxt-config
    - runtime config : https://nuxt.com/docs/guide/going-further/runtime-config
 2. 퀘이사 디자인 프레임워크
    - https://quasar.dev/
