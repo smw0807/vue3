@@ -8,11 +8,7 @@ const toggleLeftDrawer = (): void => {
   leftDrawerOpen.value = !leftDrawerOpen.value;
 };
 
-const links1 = [
-  { icon: 'home', text: 'Home' },
-  { icon: 'whatshot', text: 'Trending' },
-  { icon: 'subscriptions', text: 'Subscriptions' },
-];
+const links1 = [{ icon: 'home', text: 'Home', to: '/' }];
 const links2 = [
   { icon: 'folder', text: 'Library' },
   { icon: 'restore', text: 'History' },
@@ -20,9 +16,7 @@ const links2 = [
   { icon: 'thumb_up_alt', text: 'Liked videos' },
 ];
 const links3 = [
-  { icon: 'local_movies', text: 'Movies & Shows' },
-  { icon: 'videogame_asset', text: 'Gaming' },
-  { icon: 'live_tv', text: 'Live' },
+  { icon: 'view_list', text: 'Firestore Database', to: '/firebase/database' },
 ];
 const links4 = [
   { icon: 'settings', text: 'Settings' },
@@ -48,7 +42,7 @@ const links4 = [
 
         <q-btn flat no-caps no-wrap class="q-ml-xs" v-if="$q.screen.gt.xs">
           <q-avatar size="25px">
-            <img src="favicon.ico" />
+            <img src="/favicon.ico" />
           </q-avatar>
           <q-toolbar-title shrink class="text-weight-bold">
             Nuxt3
@@ -112,7 +106,13 @@ const links4 = [
     >
       <q-scroll-area class="fit">
         <q-list padding>
-          <q-item v-for="link in links1" :key="link.text" v-ripple clickable>
+          <q-item
+            v-for="link in links1"
+            :key="link.text"
+            v-ripple
+            clickable
+            :to="link.to"
+          >
             <q-item-section avatar>
               <q-icon color="grey" :name="link.icon" />
             </q-item-section>
@@ -121,16 +121,16 @@ const links4 = [
             </q-item-section>
           </q-item>
 
-          <q-separator class="q-my-md" />
+          <!-- <q-separator class="q-my-md" /> -->
 
-          <q-item v-for="link in links2" :key="link.text" v-ripple clickable>
+          <!-- <q-item v-for="link in links2" :key="link.text" v-ripple clickable>
             <q-item-section avatar>
               <q-icon color="grey" :name="link.icon" />
             </q-item-section>
             <q-item-section>
               <q-item-label>{{ link.text }}</q-item-label>
             </q-item-section>
-          </q-item>
+          </q-item> -->
 
           <q-separator class="q-mt-md q-mb-xs" />
 
@@ -138,7 +138,13 @@ const links4 = [
             FireBase
           </q-item-label>
 
-          <q-item v-for="link in links3" :key="link.text" v-ripple clickable>
+          <q-item
+            v-for="link in links3"
+            :key="link.text"
+            v-ripple
+            clickable
+            :to="link.to"
+          >
             <q-item-section avatar>
               <q-icon color="grey" :name="link.icon" />
             </q-item-section>
