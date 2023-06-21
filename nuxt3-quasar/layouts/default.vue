@@ -18,12 +18,7 @@ const links2 = [
 const links3 = [
   { icon: 'view_list', text: 'Firestore Database', to: '/firebase/database' },
 ];
-const links4 = [
-  { icon: 'settings', text: 'Settings' },
-  { icon: 'flag', text: 'Report history' },
-  { icon: 'help', text: 'Help' },
-  { icon: 'feedback', text: 'Send feedback' },
-];
+const links4 = [{ icon: 'description', text: 'Form', to: '/quasar/form' }];
 </script>
 
 <template>
@@ -123,15 +118,6 @@ const links4 = [
 
           <!-- <q-separator class="q-my-md" /> -->
 
-          <!-- <q-item v-for="link in links2" :key="link.text" v-ripple clickable>
-            <q-item-section avatar>
-              <q-icon color="grey" :name="link.icon" />
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>{{ link.text }}</q-item-label>
-            </q-item-section>
-          </q-item> -->
-
           <q-separator class="q-mt-md q-mb-xs" />
 
           <q-item-label header class="text-weight-bold">
@@ -155,7 +141,15 @@ const links4 = [
 
           <q-separator class="q-my-md" />
 
-          <q-item v-for="link in links4" :key="link.text" v-ripple clickable>
+          <q-item-label header class="text-weight-bold"> quasar </q-item-label>
+
+          <q-item
+            v-for="link in links4"
+            :key="link.text"
+            v-ripple
+            clickable
+            :to="link.to"
+          >
             <q-item-section avatar>
               <q-icon color="grey" :name="link.icon" />
             </q-item-section>
