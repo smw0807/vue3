@@ -1,15 +1,11 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import { useFirestore, useDocument, useCollection } from 'vuefire';
-import {
-  doc,
-  collection,
-  DocumentData,
-  getDoc,
-  query,
-} from 'firebase/firestore';
+import { useFirestore, useCollection, _RefFirestore } from 'vuefire';
+import { getFirestore, collection, DocumentData } from 'firebase/firestore';
+// const config = useRuntimeConfig();
 
 const db = useFirestore();
+console.log('useFirestore : ', db);
 const collectionName = 'test-board';
 
 /**
@@ -17,11 +13,11 @@ const collectionName = 'test-board';
  * databaseURL 옵션도 줬는데 뭐가 문제인지 파악해야함...
  */
 const docData = useCollection(collection(db, collectionName));
-console.log(docData);
-onMounted(async () => {
-  // const docRef = doc(db, "cities", "SF");
-  // const docSnap = await getDoc(docRef);
-});
+console.log('docData : ', docData.data.value);
+// onMounted(async () => {
+// const docRef = doc(db, "cities", "SF");
+// const docSnap = await getDoc(docRef);
+// });
 </script>
 <template>
   <q-card dark bordered class="bg-brown-7 my-card">
