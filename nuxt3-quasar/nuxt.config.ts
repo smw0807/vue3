@@ -2,8 +2,8 @@
 const {
   firebase_apiKey,
   firebase_authDomain,
-  firebase_projectId,
   firebase_databaseURL,
+  firebase_projectId,
   firebase_storageBucket,
   firebase_messagingSenderId,
   firebase_appId,
@@ -20,14 +20,14 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      apiKey: firebase_apiKey,
-      authDomain: firebase_authDomain,
-      databaseURL: firebase_databaseURL,
-      projectId: firebase_projectId,
-      storageBucket: firebase_storageBucket,
-      messagingSenderId: firebase_messagingSenderId,
-      appId: firebase_appId,
-      measurementId: firebase_measurementId,
+      FB_API_KEY: firebase_apiKey,
+      FB_AUTH_DOMAIN: firebase_authDomain,
+      FB_DATABASE_URL: firebase_databaseURL,
+      FB_PROJECT_ID: firebase_projectId,
+      FB_STORAGE_BUCKET: firebase_storageBucket,
+      FB_MESSAGING_SENDER_ID: firebase_messagingSenderId,
+      FB_APP_ID: firebase_appId,
+      FB_MEASUREMENT_ID: firebase_measurementId,
     },
   },
 });
