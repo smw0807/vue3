@@ -10,6 +10,8 @@
    - env 관련 : https://nuxt.com/docs/guide/directory-structure/env
    - nuxt.config.ts : https://nuxt.com/docs/api/configuration/nuxt-config
    - runtime config : https://nuxt.com/docs/guide/going-further/runtime-config
+     - plugins : https://nuxt.com/docs/guide/going-further/runtime-config#plugins
+   - provide : https://nuxt.com/docs/api/composables/use-nuxt-app#provide-name-value
 2. 퀘이사 디자인 프레임워크
    - https://quasar.dev/
    - 레이아웃 예제 : https://quasar.dev/layout/gallery/
