@@ -3,7 +3,7 @@
 넉스트3 경험해볼 겸 만든 프로젝트  
 넉스트 파이어베이스 모듈을 이용해 파이어베이스를 사용해서 기능 이것저것 만들어서 넣어볼 예정
 
-# 참고사이트
+# 프로젝트에서 만들 때 참고한 사이트 링크들
 
 1. 넉스트 공식홈페이지
    - https://nuxt.com/
@@ -12,6 +12,7 @@
    - runtime config : https://nuxt.com/docs/guide/going-further/runtime-config
      - plugins : https://nuxt.com/docs/guide/going-further/runtime-config#plugins
    - provide : https://nuxt.com/docs/api/composables/use-nuxt-app#provide-name-value
+   - composables : https://nuxt.com/docs/guide/directory-structure/composables
 2. 퀘이사 디자인 프레임워크
    - https://quasar.dev/
    - 레이아웃 예제 : https://quasar.dev/layout/gallery/
