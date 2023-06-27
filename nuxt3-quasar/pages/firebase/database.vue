@@ -1,23 +1,11 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import { useFirestore, useCollection, _RefFirestore } from 'vuefire';
-import { getFirestore, collection, DocumentData } from 'firebase/firestore';
-// const config = useRuntimeConfig();
+import type { _RefFirestore } from 'vuefire';
 
-const db = useFirestore();
-console.log('useFirestore : ', db);
-const collectionName = 'test-board';
-
-/**
- * 페이지 새로고침 시 파이어베이스 api 요청 url과 라우터 url이 충돌되는 것 같음
- * databaseURL 옵션도 줬는데 뭐가 문제인지 파악해야함...
- */
-const docData = useCollection(collection(db, collectionName));
-console.log('docData : ', docData.data.value);
-// onMounted(async () => {
-// const docRef = doc(db, "cities", "SF");
-// const docSnap = await getDoc(docRef);
-// });
+//todo 타입 지정 뭘로해야 되는지 확인 필요
+//todo 새로고침시 에러뜨는 문제 해결해야함
+let lists = getFirestoreData('test-board');
+onMounted(() => {});
 </script>
 <template>
   <q-card dark bordered class="bg-brown-7 my-card">
@@ -33,4 +21,12 @@ console.log('docData : ', docData.data.value);
       만든 게시판
     </q-card-section>
   </q-card>
+
+  <q-separator class="q-mt-md q-mb-xs" />
+
+  <ul>
+    <li v-for="list in lists" :key="list.id">
+      <span>{{ list }}</span>
+    </li>
+  </ul>
 </template>
