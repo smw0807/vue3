@@ -1,7 +1,5 @@
 import { collection, query } from 'firebase/firestore';
 import type { DocumentData } from 'firebase/firestore';
-import { useFirestore, useCollection } from 'vuefire';
-import type { _RefFirestore } from 'vuefire';
 
 /**
  * 파이어베이스 컬렉션 데이터 가져오기
@@ -10,12 +8,12 @@ import type { _RefFirestore } from 'vuefire';
  */
 export const getFirestoreData = (collectionName: string, query?: string) => {
   const db = useFirestore();
-  let result: _RefFirestore<DocumentData[]>;
+  let result: DocumentData[];
   if (!collectionName) throw 'Need CollectionName.';
   if (!query) {
-    result = useCollection(collection(db, collectionName));
+    result = collection(db, collectionName));
   } else {
-    result = useCollection(collection(db, collectionName));
+    // result = useCollection(collection(db, collectionName));
   }
   return result;
 };

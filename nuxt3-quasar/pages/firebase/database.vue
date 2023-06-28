@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import type { _RefFirestore } from 'vuefire';
 
 //todo 타입 지정 뭘로해야 되는지 확인 필요
 //todo 새로고침시 에러뜨는 문제 해결해야함
