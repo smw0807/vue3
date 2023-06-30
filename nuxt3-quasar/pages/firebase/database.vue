@@ -4,9 +4,11 @@ import type { Ref } from 'vue';
 import type { DocumentData } from 'firebase/firestore';
 
 let lists: Ref<{ id: string; data: DocumentData }[] | []> = ref([]);
+// let lists: { id: string; data: DocumentData }[] | [] = []; //반응형이 아니라 화면에 안그려짐
 
 onMounted(async () => {
   lists.value = await getFirestoreData('test-board');
+  // lists = await getFirestoreData('test-board'); //반응형이 아니라 화면에 안그려짐
 });
 </script>
 <template>
