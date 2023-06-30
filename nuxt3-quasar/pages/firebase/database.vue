@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
+import type { Ref } from 'vue';
+import type { DocumentData } from 'firebase/firestore';
 
-//todo 타입 지정 뭘로해야 되는지 확인 필요
-//todo 새로고침시 에러뜨는 문제 해결해야함
-let lists = getFirestoreData('test-board');
-onMounted(() => {});
+let lists: Ref<{ id: string; data: DocumentData }[] | []> = ref([]);
+
+onMounted(async () => {
+  lists.value = await getFirestoreData('test-board');
+});
 </script>
 <template>
   <q-card dark bordered class="bg-brown-7 my-card">
