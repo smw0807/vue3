@@ -19,6 +19,8 @@
    - 컬러 : https://quasar.dev/style/color-palette
 3. 파이어베이스
    - https://firebase.google.com/docs?authuser=0&hl=ko
+     - https://firebase.google.com/docs/firestore/query-data/get-data?hl=ko&authuser=0#get_multiple_documents_from_a_collection
+     - https://firebase.google.com/docs/firestore/query-data/get-data?hl=ko&authuser=0
 4. 아이콘
    https://fonts.google.com/icons
 5.
