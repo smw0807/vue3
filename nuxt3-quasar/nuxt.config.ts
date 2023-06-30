@@ -1,6 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  plugins: [{ src: '~/plugins/firebase-init', mode: 'client' }],
   modules: ['nuxt-quasar-ui'],
   quasar: {
     lang: 'ko-KR',
