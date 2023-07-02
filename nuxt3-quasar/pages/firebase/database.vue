@@ -4,13 +4,12 @@ import type { Ref } from 'vue';
 import type { DocumentData } from 'firebase/firestore';
 import type { QTableColumn } from 'quasar';
 
+let loading: Ref<boolean> = ref(true);
 let lists: Ref<{ id: string; data: DocumentData }[] | []> = ref([]);
-// let lists: { id: string; data: DocumentData }[] | [] = []; //반응형이 아니라 화면에 안그려짐
-// let rows = computed(() => unref(lists.value));
 
 onMounted(async () => {
   lists.value = await getFirestoreData('test-board');
-  // lists = await getFirestoreData('test-board'); //반응형이 아니라 화면에 안그려짐
+  loading.value = false;
 });
 
 const columns: QTableColumn[] = [
@@ -74,6 +73,7 @@ const columns: QTableColumn[] = [
     <q-table
       bordered
       title=""
+      :loading="loading"
       :rows="lists"
       :columns="columns"
       no-data-label="No Data."
