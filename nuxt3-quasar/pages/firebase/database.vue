@@ -64,8 +64,7 @@ const columns: QTableColumn[] = [
     <q-separator dark inset />
 
     <q-card-section>
-      파이어베이스에서 제공하는 firestore database를 nuxt-vuefire 모듈을 이용해
-      만든 게시판
+      파이어베이스에서 제공하는 Firestore Database를 사용해보는 화면
     </q-card-section>
   </q-card>
 
