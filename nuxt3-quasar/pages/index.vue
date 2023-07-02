@@ -1,5 +1,7 @@
 <script setup lang="ts">
-const date = '2023-06-06';
+import { ref } from 'vue';
+import type { Ref } from 'vue';
+const date: Ref<string> = ref('2023-06-06');
 </script>
 <template>
   <q-card class="my-card">
