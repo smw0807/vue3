@@ -1,16 +1,16 @@
 import { GoogleAuthProvider, getAuth, signInWithPopup } from 'firebase/auth';
-import type { FirebaseApp } from 'firebase/app'
+import type { FirebaseApp } from 'firebase/app';
 import type { Auth, User } from 'firebase/auth';
 
 const getFirebaseApp = (): FirebaseApp => {
-  return useFirebaseApp()
-}
+  return useFirebaseApp();
+};
 const getFirebaseAuth = (): Auth => {
   return getAuth(getFirebaseApp());
-}
+};
 const getProvider = (): GoogleAuthProvider => {
   return new GoogleAuthProvider();
-}
+};
 
 export const useGoogleSignIn = async (): Promise<User | null> => {
   let result = null;
