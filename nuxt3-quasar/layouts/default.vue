@@ -19,6 +19,15 @@ const links3 = [
   { icon: 'view_list', text: 'Firestore Database', to: '/firebase/database' },
 ];
 const links4 = [{ icon: 'description', text: 'Form', to: '/quasar/form' }];
+
+const signIn = async () => {
+  try {
+    const result = await useGoogleSignIn();
+    console.log(result);
+  } catch (err) {
+    console.warn(err);
+  }
+};
 </script>
 
 <template>
@@ -81,7 +90,7 @@ const links4 = [{ icon: 'description', text: 'Form', to: '/quasar/form' }];
             <q-badge color="red" text-color="white" floating> 2 </q-badge>
             <q-tooltip>Notifications</q-tooltip>
           </q-btn>
-          <q-btn round flat>
+          <q-btn round flat @click="signIn">
             <q-avatar size="26px">
               <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
             </q-avatar>
