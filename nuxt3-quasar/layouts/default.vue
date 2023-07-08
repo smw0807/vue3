@@ -1,19 +1,13 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import type { Ref } from 'vue';
+import { rootMenu, firebaseMenu, quasarMenu } from '~/utils/menus';
 
 const leftDrawerOpen: Ref<boolean> = ref(false);
 
 const toggleLeftDrawer = (): void => {
   leftDrawerOpen.value = !leftDrawerOpen.value;
 };
-
-const links1 = [{ icon: 'home', text: 'Home', to: '/' }];
-
-const links3 = [
-  { icon: 'view_list', text: 'Firestore Database', to: '/firebase/database' },
-];
-const links4 = [{ icon: 'description', text: 'Form', to: '/quasar/form' }];
 
 const signIn = async () => {
   try {
@@ -106,17 +100,17 @@ const signIn = async () => {
       <q-scroll-area class="fit">
         <q-list padding>
           <q-item
-            v-for="link in links1"
-            :key="link.text"
+            v-for="item in rootMenu"
+            :key="item.text"
             v-ripple
             clickable
-            :to="link.to"
+            :to="item.to"
           >
             <q-item-section avatar>
-              <q-icon color="grey" :name="link.icon" />
+              <q-icon color="grey" :name="item.icon" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>{{ link.text }}</q-item-label>
+              <q-item-label>{{ item.text }}</q-item-label>
             </q-item-section>
           </q-item>
 
@@ -129,17 +123,17 @@ const signIn = async () => {
           </q-item-label>
 
           <q-item
-            v-for="link in links3"
-            :key="link.text"
+            v-for="item in firebaseMenu"
+            :key="item.text"
             v-ripple
             clickable
-            :to="link.to"
+            :to="item.to"
           >
             <q-item-section avatar>
-              <q-icon color="grey" :name="link.icon" />
+              <q-icon color="grey" :name="item.icon" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>{{ link.text }}</q-item-label>
+              <q-item-label>{{ item.text }}</q-item-label>
             </q-item-section>
           </q-item>
 
@@ -148,17 +142,17 @@ const signIn = async () => {
           <q-item-label header class="text-weight-bold"> quasar </q-item-label>
 
           <q-item
-            v-for="link in links4"
-            :key="link.text"
+            v-for="item in quasarMenu"
+            :key="item.text"
             v-ripple
             clickable
-            :to="link.to"
+            :to="item.to"
           >
             <q-item-section avatar>
-              <q-icon color="grey" :name="link.icon" />
+              <q-icon color="grey" :name="item.icon" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>{{ link.text }}</q-item-label>
+              <q-item-label>{{ item.text }}</q-item-label>
             </q-item-section>
           </q-item>
 
