@@ -13,6 +13,8 @@ module.exports = {
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'vue/attributes-order': 'off', //뷰 속성 태그 순서
+    'vue/no-multiple-template-root': 'off', //뷰 루트 템플릿
     'prettier/prettier': ['error', {}, { usePrettierrc: true }],
   },
 };
