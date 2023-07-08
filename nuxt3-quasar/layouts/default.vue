@@ -9,12 +9,7 @@ const toggleLeftDrawer = (): void => {
 };
 
 const links1 = [{ icon: 'home', text: 'Home', to: '/' }];
-const links2 = [
-  { icon: 'folder', text: 'Library' },
-  { icon: 'restore', text: 'History' },
-  { icon: 'watch_later', text: 'Watch later' },
-  { icon: 'thumb_up_alt', text: 'Liked videos' },
-];
+
 const links3 = [
   { icon: 'view_list', text: 'Firestore Database', to: '/firebase/database' },
 ];
