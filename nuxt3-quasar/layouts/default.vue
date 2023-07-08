@@ -34,12 +34,12 @@ const signIn = async () => {
           flat
           dense
           round
-          @click="toggleLeftDrawer"
           aria-label="Menu"
           icon="menu"
+          @click="toggleLeftDrawer"
         />
 
-        <q-btn flat no-caps no-wrap class="q-ml-xs" v-if="$q.screen.gt.xs">
+        <q-btn v-if="$q.screen.gt.xs" flat no-caps no-wrap class="q-ml-xs">
           <q-avatar size="25px">
             <img src="/favicon.ico" />
           </q-avatar>
@@ -52,32 +52,32 @@ const signIn = async () => {
 
         <div class="q-gutter-sm row items-center no-wrap">
           <q-btn
+            v-if="$q.screen.gt.sm"
             round
             dense
             flat
             color="grey-8"
             icon="video_call"
-            v-if="$q.screen.gt.sm"
           >
             <q-tooltip>Create a video or post</q-tooltip>
           </q-btn>
           <q-btn
+            v-if="$q.screen.gt.sm"
             round
             dense
             flat
             color="grey-8"
             icon="apps"
-            v-if="$q.screen.gt.sm"
           >
             <q-tooltip>Apps</q-tooltip>
           </q-btn>
           <q-btn
+            v-if="$q.screen.gt.sm"
             round
             dense
             flat
             color="grey-8"
             icon="message"
-            v-if="$q.screen.gt.sm"
           >
             <q-tooltip>Messages</q-tooltip>
           </q-btn>
