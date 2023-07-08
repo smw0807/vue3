@@ -7,18 +7,18 @@ import type { DocumentData } from 'firebase/firestore';
  * @param query 쿼리를 이용해 가져올 경우 사용
  */
 export const getFirestoreData = async (
-  collectionName: string
+  collectionName: string,
   // params?: where | where[]
 ): Promise<{ id: string; data: DocumentData }[] | []> => {
   let result: { id: string; data: DocumentData }[] = [];
   try {
     const app = useFirebaseApp();
     const db = getFirestore(app);
-    if (!collectionName) throw 'Need CollectionName.';
+    if (!collectionName) throw new Error('Need CollectionName.');
 
     const querySnapshot = await getDocs(collection(db, collectionName));
     if (!querySnapshot.empty) {
-      result = querySnapshot.docs.map(doc => ({
+      result = querySnapshot.docs.map((doc) => ({
         id: doc.id,
         data: doc.data(),
       }));

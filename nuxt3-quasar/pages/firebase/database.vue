@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { onMounted, ref, unref, computed } from 'vue';
+import { onMounted, ref } from 'vue';
 import type { Ref } from 'vue';
 import type { DocumentData } from 'firebase/firestore';
 import type { QTableColumn } from 'quasar';
 
-let loading: Ref<boolean> = ref(true);
-let lists: Ref<{ id: string; data: DocumentData }[] | []> = ref([]);
+const loading: Ref<boolean> = ref(true);
+const lists: Ref<{ id: string; data: DocumentData }[] | []> = ref([]);
 
 onMounted(async () => {
   lists.value = await getFirestoreData('test-board');
@@ -19,7 +19,7 @@ const columns: QTableColumn[] = [
     field: 'title',
     align: 'left',
     headerStyle: 'width: 20%',
-    format(val, row) {
+    format(_val, row) {
       return row.data.title;
     },
   },
@@ -28,7 +28,7 @@ const columns: QTableColumn[] = [
     label: '작성자',
     field: 'data.writer',
     align: 'center',
-    format(val, row) {
+    format(_val, row) {
       return row.data.writer;
     },
   },
@@ -37,7 +37,7 @@ const columns: QTableColumn[] = [
     label: '작성일',
     field: 'data.createdAt',
     align: 'center',
-    format(val, row) {
+    format(_val, row) {
       const date = row.data.createdAt.toDate();
       return date.toLocaleString();
     },
@@ -47,7 +47,7 @@ const columns: QTableColumn[] = [
     label: '조회수',
     field: 'data.viewer',
     align: 'center',
-    format(val, row) {
+    format(_val, row) {
       return row.data.viewer;
     },
   },
