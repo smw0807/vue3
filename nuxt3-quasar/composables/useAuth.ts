@@ -11,7 +11,10 @@ const getFirebaseAuth = (): Auth => {
 const getProvider = (): GoogleAuthProvider => {
   return new GoogleAuthProvider();
 };
-
+/**
+ * 파이어베이스 구글 로그인
+ * @returns User | null
+ */
 export const useGoogleSignIn = async (): Promise<User | null> => {
   let result = null;
   try {
@@ -20,6 +23,23 @@ export const useGoogleSignIn = async (): Promise<User | null> => {
   } catch (err) {
     console.error(err);
     throw new Error('구글 로그인 실패');
+  }
+  return result;
+};
+
+/**
+ * 파이어베이스 구글 로그인 사용자 정보
+ * @returns User | null
+ */
+export const useGetUserAuth = (): User | null => {
+  let result = null;
+  try {
+    const auth = getFirebaseAuth();
+    if (auth) {
+      result = auth.currentUser;
+    }
+  } catch (err) {
+    throw new Error('유저정보 가져오기 실패');
   }
   return result;
 };
