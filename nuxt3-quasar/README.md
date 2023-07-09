@@ -23,4 +23,5 @@
      - https://firebase.google.com/docs/firestore/query-data/get-data?hl=ko&authuser=0
 4. 아이콘
    https://fonts.google.com/icons
-5.
+5. ESLint, Prettier
+   - https://dev.to/tao/adding-eslint-and-prettier-to-nuxt-3-2023-5bg
