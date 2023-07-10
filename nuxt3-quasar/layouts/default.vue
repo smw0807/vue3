@@ -8,13 +8,18 @@ import { useAuthStore } from '~/store/useAuthStore';
 let { userAuth } = useAuthStore();
 
 // 로그인
-const signIn = async () => {
+const signIn = async (): Promise<void> => {
   try {
     userAuth = await useGoogleSignIn();
     console.log(userAuth);
   } catch (err) {
     console.warn(err);
   }
+};
+
+// 로그아웃
+const signOut = (): void => {
+  useGoogleSignOut();
 };
 
 onMounted(() => {
@@ -68,6 +73,7 @@ const toggleLeftDrawer = (): void => {
           >
             <q-tooltip>Create a video or post</q-tooltip>
           </q-btn>
+
           <q-btn
             v-if="$q.screen.gt.sm"
             round
@@ -78,6 +84,7 @@ const toggleLeftDrawer = (): void => {
           >
             <q-tooltip>Apps</q-tooltip>
           </q-btn>
+
           <q-btn
             v-if="$q.screen.gt.sm"
             round
@@ -88,15 +95,37 @@ const toggleLeftDrawer = (): void => {
           >
             <q-tooltip>Messages</q-tooltip>
           </q-btn>
+
           <q-btn round dense flat color="grey-8" icon="notifications">
             <q-badge color="red" text-color="white" floating> 2 </q-badge>
             <q-tooltip>Notifications</q-tooltip>
           </q-btn>
+
           <q-btn v-if="userAuth" round flat>
             <q-avatar size="26px">
               <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
             </q-avatar>
-            <q-tooltip>Account</q-tooltip>
+            <q-menu>
+              <div class="row no-wrap q-pa-md">
+                <div class="column items-center">
+                  <q-avatar size="72px">
+                    <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
+                  </q-avatar>
+
+                  <div class="text-subtitle1 q-mt-md q-mb-xs">John Doe</div>
+
+                  <q-btn
+                    @click="signOut"
+                    color="primary"
+                    label="Sign out"
+                    push
+                    size="sm"
+                    v-close-popup
+                  />
+                </div>
+              </div>
+            </q-menu>
+            <q-tooltip>My Info</q-tooltip>
           </q-btn>
           <q-btn v-else @click="signIn" round dense flat icon="login">
             <q-tooltip>Login</q-tooltip>
