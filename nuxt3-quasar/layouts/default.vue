@@ -1,21 +1,34 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import type { Ref } from 'vue';
 import { rootMenu, firebaseMenu, quasarMenu } from '~/utils/menus';
+import { useAuthStore } from '~/store/useAuthStore';
 
-const leftDrawerOpen: Ref<boolean> = ref(false);
+// 스토어에 저장된 사용자 정보
+let { userAuth } = useAuthStore();
 
-const toggleLeftDrawer = (): void => {
-  leftDrawerOpen.value = !leftDrawerOpen.value;
-};
-
+// 로그인
 const signIn = async () => {
   try {
-    const result = await useGoogleSignIn();
-    console.log(result);
+    userAuth = await useGoogleSignIn();
+    console.log(userAuth);
   } catch (err) {
     console.warn(err);
   }
+};
+
+onMounted(() => {
+  // 사용자정보 가져오기
+  const nowUser = useGetUserAuth();
+  if (nowUser) {
+    userAuth = nowUser;
+  }
+});
+
+// 메뉴 활성화
+const leftDrawerOpen: Ref<boolean> = ref(false);
+const toggleLeftDrawer = (): void => {
+  leftDrawerOpen.value = !leftDrawerOpen.value;
 };
 </script>
 
@@ -79,11 +92,14 @@ const signIn = async () => {
             <q-badge color="red" text-color="white" floating> 2 </q-badge>
             <q-tooltip>Notifications</q-tooltip>
           </q-btn>
-          <q-btn round flat @click="signIn">
+          <q-btn v-if="userAuth" round flat>
             <q-avatar size="26px">
               <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
             </q-avatar>
             <q-tooltip>Account</q-tooltip>
+          </q-btn>
+          <q-btn v-else @click="signIn" round dense flat icon="login">
+            <q-tooltip>Login</q-tooltip>
           </q-btn>
         </div>
       </q-toolbar>
