@@ -39,6 +39,7 @@ export const useGetUserAuth = (): User | null => {
       result = auth.currentUser;
     }
   } catch (err) {
+    console.error(err);
     throw new Error('유저정보 가져오기 실패');
   }
   return result;
