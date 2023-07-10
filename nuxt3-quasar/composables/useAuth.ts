@@ -1,4 +1,9 @@
-import { GoogleAuthProvider, getAuth, signInWithPopup } from 'firebase/auth';
+import {
+  GoogleAuthProvider,
+  getAuth,
+  signInWithPopup,
+  signOut,
+} from 'firebase/auth';
 import type { FirebaseApp } from 'firebase/app';
 import type { Auth, User } from 'firebase/auth';
 
@@ -43,4 +48,16 @@ export const useGetUserAuth = (): User | null => {
     throw new Error('유저정보 가져오기 실패');
   }
   return result;
+};
+
+/**
+ * 파이어베이스 구글 로그인 -> 로그아웃
+ */
+export const useGoogleSignOut = (): void => {
+  try {
+    signOut(getFirebaseAuth());
+  } catch (err) {
+    console.error(err);
+    throw new Error('로그아웃 실패');
+  }
 };
