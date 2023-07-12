@@ -1,6 +1,7 @@
 import {
   GoogleAuthProvider,
   getAuth,
+  onAuthStateChanged,
   signInWithPopup,
   signOut,
 } from 'firebase/auth';
@@ -46,6 +47,43 @@ export const useGetUserAuth = (): User | null => {
   } catch (err) {
     console.error(err);
     throw new Error('유저정보 가져오기 실패');
+  }
+  return result;
+};
+
+/**
+ * 현재 로그인한 사용자 가져오기.
+ * 현재 사용자를 가져올 때 권장하는 방법(공식문서).
+ * Auth 객체에 관찰자 설정.
+ * https://firebase.google.com/docs/auth/web/manage-users?hl=ko&authuser=0
+ * @returns User | null
+ */
+const getNowUserAuth = (): Promise<User | null> => {
+  return new Promise((resolve, reject) => {
+    try {
+      onAuthStateChanged(getFirebaseAuth(), (user) => {
+        if (user) {
+          resolve(user);
+        } else {
+          resolve(null);
+        }
+      });
+    } catch (err) {
+      reject(err);
+    }
+  });
+};
+/**
+ * 현재 로그인한 사용자 정보
+ * @returns User | null
+ */
+export const useGetNowUserAuth = async (): Promise<User | null> => {
+  let result = null;
+  try {
+    result = await getNowUserAuth();
+  } catch (err) {
+    console.error(err);
+    throw new Error('현재 사용자 정보 가져오기 실패');
   }
   return result;
 };
