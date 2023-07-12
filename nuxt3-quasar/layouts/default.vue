@@ -1,17 +1,18 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import type { Ref } from 'vue';
 import { rootMenu, firebaseMenu, quasarMenu } from '~/utils/menus';
 import { useAuthStore } from '~/store/useAuthStore';
 
 // 스토어에 저장된 사용자 정보
-let { userAuth } = useAuthStore();
+const authStore = useAuthStore();
+
+const cNowUser = computed(() => authStore.getUserAuth);
 
 // 로그인
 const signIn = async (): Promise<void> => {
   try {
-    userAuth = await useGoogleSignIn();
-    console.log(userAuth);
+    authStore.userAuth = await useGoogleSignIn();
   } catch (err) {
     console.warn(err);
   }
@@ -23,11 +24,10 @@ const signOut = (): void => {
 };
 
 onMounted(() => {
-  // 사용자정보 가져오기
-  const nowUser = useGetUserAuth();
-  if (nowUser) {
-    userAuth = nowUser;
-  }
+  // 현재 로그인한 사용자 가져오기
+  useGetNowUserAuth((user) => {
+    authStore.userAuth = user;
+  });
 });
 
 // 메뉴 활성화
@@ -101,7 +101,7 @@ const toggleLeftDrawer = (): void => {
             <q-tooltip>Notifications</q-tooltip>
           </q-btn>
 
-          <q-btn v-if="userAuth" round flat>
+          <q-btn v-if="cNowUser" round flat>
             <q-avatar size="26px">
               <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
             </q-avatar>
