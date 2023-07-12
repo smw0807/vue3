@@ -51,7 +51,7 @@ export const useGetUserAuth = (): User | null => {
 };
 
 /**
- * 파이어베이스 구글 로그인 -> 로그아웃
+ * 파이어베이스 구글 로그아웃
  */
 export const useGoogleSignOut = (): void => {
   try {
