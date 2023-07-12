@@ -33,7 +33,7 @@ export const useGoogleSignIn = async (): Promise<User | null> => {
 };
 
 /**
- * 파이어베이스 구글 로그인 사용자 정보
+ * 파이어베이스 구글 로그인 사용자 정보 가져오기
  * @returns User | null
  */
 export const useGetUserAuth = (): User | null => {
