@@ -26,6 +26,10 @@ const signOut = (): void => {
 // 현재 로그인한 사용자 가져오기
 const getNowUser = (): void => {
   useGetNowUserAuth((user) => {
+    /**
+     * todo
+     * 결과가 오기전까지 로그인 버튼, 프로필 버튼 쪽 부자연스러운 부분 해결하기
+     */
     authStore.userAuth = user;
   });
 };
