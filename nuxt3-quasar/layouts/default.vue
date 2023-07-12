@@ -23,11 +23,14 @@ const signOut = (): void => {
   useGoogleSignOut();
 };
 
-onMounted(() => {
-  // 현재 로그인한 사용자 가져오기
+// 현재 로그인한 사용자 가져오기
+const getNowUser = (): void => {
   useGetNowUserAuth((user) => {
     authStore.userAuth = user;
   });
+};
+onMounted(() => {
+  getNowUser();
 });
 
 // 메뉴 활성화
