@@ -11,7 +11,9 @@ export const tempMenu: IMenu[] = [
   { icon: 'thumb_up_alt', text: 'Liked videos' },
 ];
 export const firebaseMenu: IMenu[] = [
-  { icon: 'view_list', text: 'Firestore Database', to: '/firebase/database' },
+  { icon: 'table_view', text: 'Firestore Database', to: '/firebase/database' },
+  { icon: 'view_list', text: 'Board', to: '/firebase/board' },
+  { icon: 'drive_folder_upload', text: 'File Board', to: '/firebase/file' },
 ];
 export const quasarMenu: IMenu[] = [
   { icon: 'description', text: 'Form', to: '/quasar/form' },
