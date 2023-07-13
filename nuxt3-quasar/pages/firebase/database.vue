@@ -63,7 +63,8 @@ const columns: QTableColumn[] = [
     <q-separator dark inset />
 
     <q-card-section>
-      파이어베이스에서 제공하는 Firestore Database를 사용해보는 화면
+      파이어베이스에서 제공하는 Firestore Database의 데이터를 가져와서 테이블에
+      그리는 화면
     </q-card-section>
   </q-card>
 
