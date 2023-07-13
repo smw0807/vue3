@@ -21,6 +21,7 @@ const signIn = async (): Promise<void> => {
 // 로그아웃
 const signOut = (): void => {
   useGoogleSignOut();
+  authStore.userAuth = null;
 };
 
 // 현재 로그인한 사용자 가져오기
