@@ -111,23 +111,32 @@ const toggleLeftDrawer = (): void => {
 
           <q-btn v-if="cNowUser" round flat>
             <q-avatar size="26px">
-              <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
+              <img v-if="cNowUser.photoURL" :src="cNowUser.photoURL" />
+              <img v-else src="person" />
             </q-avatar>
             <q-menu>
               <div class="row no-wrap q-pa-md">
                 <div class="column items-center">
                   <q-avatar size="72px">
-                    <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
+                    <img v-if="cNowUser.photoURL" :src="cNowUser.photoURL" />
+                    <img v-else src="person" />
                   </q-avatar>
 
-                  <div class="text-subtitle1 q-mt-md q-mb-xs">John Doe</div>
+                  <div class="text-subtitle1 q-mt-md">
+                    {{ cNowUser.displayName }}
+                  </div>
+                  <div class="text-subtitle2">
+                    {{ cNowUser.email }}
+                  </div>
 
                   <q-btn
                     @click="signOut"
+                    class="q-mt-md"
                     color="primary"
                     label="Sign out"
                     push
-                    size="sm"
+                    no-caps
+                    size="md"
                     v-close-popup
                   />
                 </div>
