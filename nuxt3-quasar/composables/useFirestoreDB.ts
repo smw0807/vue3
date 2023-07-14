@@ -29,3 +29,15 @@ export const getFirestoreData = async (
   }
   return result;
 };
+
+/**
+ * todo 파이어베이스 컬렉션데 데이터 넣기
+ */
+
+/**
+ * todo 파이어베이스 컬렉션데 데이터 수정
+ */
+
+/**
+ * todo 파이어베이스 컬렉션데 데이터 삭제
+ */
