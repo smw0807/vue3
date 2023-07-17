@@ -1,12 +1,6 @@
 <script setup lang="ts">
 import { computed, reactive } from 'vue';
 
-/**
- * todo
- * textarea input-style height 적용 안되는 부분 확인
- * 화면단에서 title, content 넘기면 input에 값 넣어주는 로직 만들기
- */
-
 interface Props {
   isOpen: boolean; // true => 다이얼로그 열림, false => 닫힘
   mode?: string; // ins => 글 등록모드, upd => 등록된 글 상세보기 후 수정
@@ -36,14 +30,23 @@ const props = withDefaults(defineProps<Props>(), {
   title: '',
   content: '',
 });
-
+// 컴포넌트 오픈 여부
 const cOpen = computed(() => props.isOpen);
+
+// confirm 오픈 여부
+const confirmOpen: Ref<boolean> = ref(false);
+// confirm 제목
+const confirmTitle = props.mode === 'ins' ? '글 등록' : '글 수정';
+// confirm 내용
+const confirmText =
+  props.mode === 'ins'
+    ? '입력한 내용을 등록하시겠습니까?'
+    : '입력한 내용으로 글을 수정하시겠습니까?';
 
 // 입력한 값들을 위로 전파
 const submit = () => {
   emits('submit', formData);
 };
-
 // 모달 닫기
 const close = (): void => {
   emits('close', false);
@@ -71,19 +74,37 @@ const close = (): void => {
         <q-input
           v-model="formData.content"
           type="textarea"
-          clear-icon="close"
-          autofocus
-          autogrow
           filled
           label="내용"
           input-style="height:200px;"
-          @keyup.enter="submit"
         />
       </q-card-section>
 
       <q-card-actions align="right" class="text-primary">
-        <q-btn @click="submit" color="primary" label="등록" />
+        <q-btn @click="confirmOpen = true" color="primary" label="등록" />
         <q-btn @click="close" outline label="닫기" />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
+
+  <q-dialog
+    v-model="confirmOpen"
+    persistent
+    transition-show="scale"
+    transition-hide="scale"
+  >
+    <q-card class="bg-teal text-white" style="width: 300px">
+      <q-card-section>
+        <div class="text-h6">{{ confirmTitle }}</div>
+      </q-card-section>
+
+      <q-card-section class="q-pt-none">
+        {{ confirmText }}
+      </q-card-section>
+
+      <q-card-actions align="right" class="bg-white text-teal">
+        <q-btn flat label="저장" @click="submit" v-close-popup />
+        <q-btn flat label="취소" v-close-popup />
       </q-card-actions>
     </q-card>
   </q-dialog>
