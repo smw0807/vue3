@@ -50,9 +50,9 @@ const contentRules = (v: string): boolean | string => {
 
 // confirm 오픈 여부
 const confirmOpen: Ref<boolean> = ref(false);
-// confirm 제목
+// confirm 제목 - todo : reactive 나 computed로 처리하기
 const confirmTitle = props.mode === 'ins' ? '글 등록' : '글 수정';
-// confirm 내용
+// confirm 내용 - todo : reactive 나 computed로 처리하기
 const confirmText =
   props.mode === 'ins'
     ? '입력한 내용을 등록하시겠습니까?'
