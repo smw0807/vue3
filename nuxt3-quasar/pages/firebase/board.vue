@@ -59,16 +59,21 @@ const columns: QTableColumn[] = [
 
 // 글쓰기 관련 변수 및 함수 ----------------------
 // 글쓰기 모달 활성화 여부
-const showDialog: Ref<boolean> = ref(false);
+const showWriteDialog: Ref<boolean> = ref(false);
 
 // 글쓰기 버튼 클릭 이벤트
 const writeButtonEvent = (): void => {
-  showDialog.value = true;
+  openWriteDialog();
 };
 // 글쓰기 등록 버튼 클릭 시 입력값 받아서 저장
 const saveContent = (v: { title: string; content: string }): void => {
   console.log('saveContent : ', v);
+  closeWriteDialog();
 };
+// 글쓰기 다이얼로그 열기
+const openWriteDialog = (): boolean => (showWriteDialog.value = true);
+// 글쓰기 다이얼로그 닫기
+const closeWriteDialog = (): boolean => (showWriteDialog.value = false);
 // -----------------------------------------
 
 onMounted(async () => {
@@ -79,9 +84,9 @@ onMounted(async () => {
 </script>
 <template>
   <DialogBoardContent
-    :is-open="showDialog"
+    :is-open="showWriteDialog"
     @submit="saveContent"
-    @close="showDialog = false"
+    @close="showWriteDialog = false"
     title="test"
     content="asadfasfasdf"
   />
