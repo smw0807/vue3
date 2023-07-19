@@ -10,9 +10,13 @@ import type { QTableColumn } from 'quasar';
  * 페이지 다시 돌아올 때마다 데이터 다시 불러옴
  * 글쓰기 버튼은 로그인 여부 체크해서 활성화 시키게 변경
  */
+interface ITableData {
+  id: string;
+  data: DocumentData;
+}
+const lists: Ref<ITableData[] | []> = ref([]);
 
-const lists: Ref<{ id: string; data: DocumentData }[] | []> = ref([]);
-
+// 테이블 관련 변수 및 함수 -----------------------------
 // 테이블 로딩
 const tableLoading: Ref<boolean> = ref(true);
 // 테이블 컬럼
@@ -56,6 +60,11 @@ const columns: QTableColumn[] = [
     },
   },
 ];
+// 테이블 데이터 가져오기
+const getData = async (): Promise<ITableData[]> => {
+  return await getFirestoreData('test-board');
+};
+// -----------------------------------------
 
 // 글쓰기 관련 변수 및 함수 ----------------------
 // 글쓰기 모달 활성화 여부
@@ -77,8 +86,7 @@ const closeWriteDialog = (): boolean => (showWriteDialog.value = false);
 // -----------------------------------------
 
 onMounted(async () => {
-  // 파이어스토어에서 데이터 가져오기
-  lists.value = await getFirestoreData('test-board');
+  lists.value = await getData();
   tableLoading.value = false;
 });
 </script>
