@@ -50,13 +50,16 @@ const contentRules = (v: string): boolean | string => {
 
 // confirm 오픈 여부
 const confirmOpen: Ref<boolean> = ref(false);
-// confirm 제목 - todo : reactive 나 computed로 처리하기
-const confirmTitle = props.mode === 'ins' ? '글 등록' : '글 수정';
-// confirm 내용 - todo : reactive 나 computed로 처리하기
-const confirmText =
-  props.mode === 'ins'
-    ? '입력한 내용을 등록하시겠습니까?'
-    : '입력한 내용으로 글을 수정하시겠습니까?';
+// confirm 제목
+const cConfirmTitle = computed(() => {
+  if (props.mode === 'ins') return '글 등록';
+  else return '글 수정';
+});
+// confirm 내용
+const cConfirmText = computed(() => {
+  if (props.mode === 'ins') return '입력한 내용을 등록하시겠습니까?';
+  else return '입력한 내용으로 글을 수정하시겠습니까?';
+});
 // confirm
 const confirm = async () => {
   try {
@@ -124,11 +127,11 @@ const close = (): void => {
   >
     <q-card class="bg-teal text-white" style="width: 300px">
       <q-card-section>
-        <div class="text-h6">{{ confirmTitle }}</div>
+        <div class="text-h6">{{ cConfirmTitle }}</div>
       </q-card-section>
 
       <q-card-section class="q-pt-none">
-        {{ confirmText }}
+        {{ cConfirmText }}
       </q-card-section>
 
       <q-card-actions align="right" class="bg-white text-teal">
