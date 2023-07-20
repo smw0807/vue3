@@ -1,5 +1,17 @@
-import { getFirestore, collection, getDocs } from 'firebase/firestore';
-import type { DocumentData } from 'firebase/firestore';
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  addDoc,
+  doc,
+  setDoc,
+} from 'firebase/firestore';
+import type { Firestore, DocumentData } from 'firebase/firestore';
+
+const db = (): Firestore => {
+  const app = useFirebaseApp();
+  return getFirestore(app);
+};
 
 /**
  * 파이어베이스 컬렉션 데이터 가져오기
@@ -12,11 +24,9 @@ export const getFirestoreData = async (
 ): Promise<{ id: string; data: DocumentData }[] | []> => {
   let result: { id: string; data: DocumentData }[] = [];
   try {
-    const app = useFirebaseApp();
-    const db = getFirestore(app);
     if (!collectionName) throw new Error('Need CollectionName.');
 
-    const querySnapshot = await getDocs(collection(db, collectionName));
+    const querySnapshot = await getDocs(collection(db(), collectionName));
     if (!querySnapshot.empty) {
       result = querySnapshot.docs.map((doc) => ({
         id: doc.id,
@@ -31,8 +41,28 @@ export const getFirestoreData = async (
 };
 
 /**
- * todo 파이어베이스 컬렉션에 데이터 넣기
+ * 파이어베이스 컬렉션에 데이터 넣기
+ * @param collectionName 데이터를 넣을 컬렉션이름
+ * @param params 데이터 정보
+ * @param id 데이터에 아이디를 지정하고 싶을 경우
+ * 컬렉션마다 필드 구조가 다를거고, 데이터를 넣는데 공통으로 사용하기 위해서 params는 제네릭으로 지정함.
  */
+export const setFirestoreData = async <T extends DocumentData>(
+  collectionName: string,
+  params: T,
+  id?: string,
+): Promise<void> => {
+  try {
+    if (id) {
+      await setDoc(doc(db(), collectionName, id), params);
+    } else {
+      await addDoc(collection(db(), collectionName), params);
+    }
+  } catch (err) {
+    console.error(err);
+    throw new Error('데이터 추가 실패');
+  }
+};
 
 /**
  * todo 파이어베이스 컬렉션에 데이터 수정
