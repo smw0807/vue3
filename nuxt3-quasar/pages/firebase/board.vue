@@ -17,6 +17,8 @@ interface ITableData {
 const lists: Ref<ITableData[] | []> = ref([]);
 
 // 테이블 관련 변수 및 함수 -----------------------------
+// 테이블 데이터 컬렉션 이름
+const collectionName = 'test-board';
 // 테이블 로딩
 const tableLoading: Ref<boolean> = ref(true);
 // 테이블 컬럼
@@ -62,7 +64,7 @@ const columns: QTableColumn[] = [
 ];
 // 테이블 데이터 가져오기
 const getData = async (): Promise<ITableData[]> => {
-  return await getFirestoreData('test-board');
+  return await getFirestoreData(collectionName);
 };
 // -----------------------------------------
 
@@ -75,9 +77,21 @@ const writeButtonEvent = (): void => {
   openWriteDialog();
 };
 // 글쓰기 등록 버튼 클릭 시 입력값 받아서 저장
-const saveContent = (v: { title: string; content: string }): void => {
-  console.log('saveContent : ', v);
+const saveContent = async (v: {
+  title: string;
+  content: string;
+}): Promise<void> => {
+  const user = useGetUserAuth();
+  const data = {
+    ...v,
+    createdAt: new Date(),
+    viewer: 0,
+    writer: user?.displayName,
+    writerID: user?.email,
+  };
+  await setFirestoreData(collectionName, data);
   closeWriteDialog();
+  await getData();
 };
 // 글쓰기 다이얼로그 열기
 const openWriteDialog = (): boolean => (showWriteDialog.value = true);
