@@ -63,8 +63,8 @@ const columns: QTableColumn[] = [
   },
 ];
 // 테이블 데이터 가져오기
-const getData = async (): Promise<ITableData[]> => {
-  return await getFirestoreData(collectionName);
+const getData = async (): Promise<void> => {
+  lists.value = await getFirestoreData(collectionName);
 };
 // -----------------------------------------
 
@@ -100,7 +100,7 @@ const closeWriteDialog = (): boolean => (showWriteDialog.value = false);
 // -----------------------------------------
 
 onMounted(async () => {
-  lists.value = await getData();
+  await getData();
   tableLoading.value = false;
 });
 </script>
