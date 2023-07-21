@@ -21,8 +21,8 @@ const db = (): Firestore => {
 export const getFirestoreData = async (
   collectionName: string,
   // params?: where | where[]
-): Promise<{ id: string; data: DocumentData }[] | []> => {
-  let result: { id: string; data: DocumentData }[] = [];
+): Promise<(DocumentData & { id: string })[] | []> => {
+  let result: (DocumentData & { id: string })[] = [];
   try {
     if (!collectionName) throw new Error('Need CollectionName.');
 
@@ -30,7 +30,7 @@ export const getFirestoreData = async (
     if (!querySnapshot.empty) {
       result = querySnapshot.docs.map((doc) => ({
         id: doc.id,
-        data: doc.data(),
+        ...doc.data(),
       }));
     }
   } catch (err) {
