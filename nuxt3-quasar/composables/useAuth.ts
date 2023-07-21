@@ -58,7 +58,7 @@ export const useGetUserAuth = (): User | null => {
  * Auth 객체에 관찰자 설정.
  * https://firebase.google.com/docs/auth/web/manage-users?hl=ko&authuser=0
  *
- * Firbase 인증 상태는 비동기적으로 변경되기 때문에 콜백 패턴을 사용한다.
+ * Firebase 인증 상태는 비동기적으로 변경되기 때문에 콜백 패턴을 사용한다.
  * 구독패턴(subscription pattern)의 한 종류로, 이벤트가 발생하면 콜백함수가 실행되는 방식이다.
  * </pre>
  * @returns User | null
