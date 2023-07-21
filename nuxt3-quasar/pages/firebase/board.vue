@@ -10,11 +10,8 @@ import type { QTableColumn } from 'quasar';
  * 페이지 다시 돌아올 때마다 데이터 다시 불러옴
  * 글쓰기 버튼은 로그인 여부 체크해서 활성화 시키게 변경
  */
-interface ITableData {
-  id: string;
-  data: DocumentData;
-}
-const lists: Ref<ITableData[] | []> = ref([]);
+
+const lists: Ref<(DocumentData & { id: string })[] | []> = ref([]);
 
 // 테이블 관련 변수 및 함수 -----------------------------
 // 테이블 데이터 컬렉션 이름
@@ -29,37 +26,31 @@ const columns: QTableColumn[] = [
     field: 'title',
     align: 'left',
     headerStyle: 'width: 20%',
-    format(_val, row) {
-      return row.data.title;
-    },
+    sortable: true,
   },
   {
     name: 'wireter',
     label: '작성자',
-    field: 'data.writer',
+    field: 'writer',
     align: 'center',
-    format(_val, row) {
-      return row.data.writer;
-    },
+    sortable: true,
   },
   {
     name: 'createdAt',
     label: '작성일',
-    field: 'data.createdAt',
+    field: 'createdAt',
     align: 'center',
-    format(_val, row) {
-      const date = row.data.createdAt.toDate();
-      return date.toLocaleString();
+    sortable: true,
+    format(val, _row) {
+      return val.toDate().toLocaleString();
     },
   },
   {
     name: 'viewer',
     label: '조회수',
-    field: 'data.viewer',
+    field: 'viewer',
     align: 'center',
-    format(_val, row) {
-      return row.data.viewer;
-    },
+    sortable: true,
   },
 ];
 // 테이블 데이터 가져오기
