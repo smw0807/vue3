@@ -1,17 +1,16 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import type { Ref } from 'vue';
-import type { DocumentData } from 'firebase/firestore';
 import type { QTableColumn } from 'quasar';
+import { useBoardStore } from '~/store/useBoardStore';
 
+const boardStore = useBoardStore();
 /**
  * todo
- * Store에서 저장하고 가져오는 방식으로 할지 고민해보기.
- * 페이지 다시 돌아올 때마다 데이터 다시 불러옴
  * 글쓰기 버튼은 로그인 여부 체크해서 활성화 시키게 변경
  */
 
-const lists: Ref<(DocumentData & { id: string })[] | []> = ref([]);
+const lists = computed(() => boardStore.getLists);
 
 // 테이블 관련 변수 및 함수 -----------------------------
 // 테이블 데이터 컬렉션 이름
@@ -55,7 +54,7 @@ const columns: QTableColumn[] = [
 ];
 // 테이블 데이터 가져오기
 const getData = async (): Promise<void> => {
-  lists.value = await getFirestoreData(collectionName);
+  boardStore.lists = await getFirestoreData(collectionName);
 };
 // -----------------------------------------
 
