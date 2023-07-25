@@ -99,8 +99,8 @@ onMounted(async () => {
     :is-open="showWriteDialog"
     @submit="saveContent"
     @close="showWriteDialog = false"
-    title="test"
-    content="asadfasfasdf"
+    title=""
+    content=""
   />
   <q-card dark bordered class="bg-brown-7 my-card">
     <q-card-section>
