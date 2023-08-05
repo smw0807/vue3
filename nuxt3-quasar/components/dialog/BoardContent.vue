@@ -1,15 +1,10 @@
 <script setup lang="ts">
-import { computed, reactive } from 'vue';
+import { computed, reactive, watchEffect } from 'vue';
 
 interface Props {
   isOpen: boolean; // true => 다이얼로그 열림, false => 닫힘
   mode?: string; // ins => 글 등록모드, upd => 등록된 글 상세보기 후 수정
-  title?: string; // 제목
-  content?: string; // 내용
-}
-interface IFrom {
-  title: string;
-  content: string;
+  row?: RowType;
 }
 /**
  * submit : 입력된 formData를 위로 전달함 @return IForm
@@ -20,8 +15,7 @@ const emits = defineEmits(['submit', 'close']);
 const props = withDefaults(defineProps<Props>(), {
   isOpen: false,
   mode: 'ins',
-  title: '',
-  content: '',
+  row: null,
 });
 // 컴포넌트 오픈 여부
 const cOpen = computed(() => props.isOpen);
@@ -30,9 +24,17 @@ const cOpen = computed(() => props.isOpen);
 const boardContentForm = ref();
 
 // 입력폼
-const formData: IFrom = reactive({
+const formData: BoardInsertType = reactive({
   title: '',
   content: '',
+});
+
+watchEffect(() => {
+  if (props.row) {
+    const row = props.row;
+    formData.title = row?.title || '';
+    formData.content = row?.content || '';
+  }
 });
 
 // title validate

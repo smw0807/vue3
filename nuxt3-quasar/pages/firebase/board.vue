@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watchEffect } from 'vue';
 import type { Ref } from 'vue';
 import type { QTableColumn } from 'quasar';
 import { useBoardStore } from '~/store/useBoardStore';
@@ -13,6 +13,7 @@ const boardStore = useBoardStore();
 const lists = computed(() => boardStore.getLists);
 
 // 테이블 관련 변수 및 함수 -----------------------------
+const rowData: Ref<RowType> = ref(null);
 // 테이블 데이터 컬렉션 이름
 const collectionName = 'test-board';
 // 테이블 로딩
@@ -56,9 +57,20 @@ const columns: QTableColumn[] = [
 const getData = async (): Promise<void> => {
   boardStore.lists = await getFirestoreData(collectionName);
 };
+// 테이블 로우 클릭 이벤트
+const onRowClick = (_evnet: Event, row: RowType, _idx: number): void => {
+  writeMode.value = 'upd';
+  rowData.value = row;
+  openWriteDialog();
+};
+watchEffect(() => {
+  console.log(rowData);
+});
 // -----------------------------------------
 
 // 글쓰기 관련 변수 및 함수 ----------------------
+// 모드
+const writeMode: Ref<string> = ref('ins');
 // 글쓰기 모달 활성화 여부
 const showWriteDialog: Ref<boolean> = ref(false);
 
@@ -86,7 +98,10 @@ const saveContent = async (v: {
 // 글쓰기 다이얼로그 열기
 const openWriteDialog = (): boolean => (showWriteDialog.value = true);
 // 글쓰기 다이얼로그 닫기
-const closeWriteDialog = (): boolean => (showWriteDialog.value = false);
+const closeWriteDialog = (): void => {
+  rowData.value = null;
+  showWriteDialog.value = false;
+};
 // -----------------------------------------
 
 onMounted(async () => {
@@ -96,11 +111,11 @@ onMounted(async () => {
 </script>
 <template>
   <DialogBoardContent
+    :mode="writeMode"
     :is-open="showWriteDialog"
     @submit="saveContent"
-    @close="showWriteDialog = false"
-    title=""
-    content=""
+    @close="closeWriteDialog"
+    :row="rowData"
   />
   <q-card dark bordered class="bg-brown-7 my-card">
     <q-card-section>
@@ -133,6 +148,7 @@ onMounted(async () => {
         <q-table
           bordered
           title=""
+          @row-click="onRowClick"
           :loading="tableLoading"
           :rows="lists"
           :columns="columns"
