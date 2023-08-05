@@ -13,3 +13,4 @@ type FirebaseBoardDocType = {
 };
 type RowType = FirebaseBoardDocType | NullType;
 type BoardInsertType = Pick<FirebaseBoardDocType, 'title' | 'content'>;
+type BoardUpdateType = Pick<FirebaseBoardDocType, 'id' | 'title' | 'content'>;
