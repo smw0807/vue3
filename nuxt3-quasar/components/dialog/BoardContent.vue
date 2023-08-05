@@ -30,11 +30,9 @@ const formData: BoardInsertType = reactive({
 });
 
 watchEffect(() => {
-  if (props.row) {
-    const row = props.row;
-    formData.title = row?.title || '';
-    formData.content = row?.content || '';
-  }
+  const row = props.row;
+  formData.title = row?.title || '';
+  formData.content = row?.content || '';
 });
 
 // title validate
