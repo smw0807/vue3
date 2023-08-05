@@ -84,14 +84,16 @@ const saveContent = async (v: {
   content: string;
 }): Promise<void> => {
   const user = useGetUserAuth();
-  const data = {
-    ...v,
-    createdAt: new Date(),
-    viewer: 0,
-    writer: user?.displayName,
-    writerID: user?.email,
-  };
-  await setFirestoreData(collectionName, data);
+  if (writeMode.value === 'ins') {
+    const data = {
+      ...v,
+      createdAt: new Date(),
+      viewer: 0,
+      writer: user?.displayName,
+      writerID: user?.email,
+    };
+    await setFirestoreData(collectionName, data);
+  }
   closeWriteDialog();
   await getData();
 };
@@ -99,6 +101,7 @@ const saveContent = async (v: {
 const openWriteDialog = (): boolean => (showWriteDialog.value = true);
 // 글쓰기 다이얼로그 닫기
 const closeWriteDialog = (): void => {
+  writeMode.value = 'ins';
   rowData.value = null;
   showWriteDialog.value = false;
 };
