@@ -73,7 +73,11 @@ const confirm = async () => {
 
 // 입력한 값들을 위로 전파
 const submit = () => {
-  emits('submit', formData);
+  if (props.mode === 'upd') {
+    emits('submit', formData, props.row!.id);
+  } else {
+    emits('submit', formData);
+  }
 };
 // 모달 닫기
 const close = (): void => {

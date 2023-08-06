@@ -58,10 +58,20 @@ const getData = async (): Promise<void> => {
   boardStore.lists = await getFirestoreData(collectionName);
 };
 // 테이블 로우 클릭 이벤트
-const onRowClick = (_evnet: Event, row: RowType, _idx: number): void => {
-  writeMode.value = 'upd';
-  rowData.value = row;
-  openWriteDialog();
+const onRowClick = async (
+  _evnet: Event,
+  row: RowType,
+  _idx: number,
+): Promise<void> => {
+  if (row) {
+    await updateFirebaseData(collectionName, row?.id, {
+      viewer: Number(row?.viewer) + 1,
+    });
+    writeMode.value = 'upd';
+    rowData.value = row;
+    openWriteDialog();
+    await getData();
+  }
 };
 watchEffect(() => {
   console.log(rowData);
@@ -79,20 +89,29 @@ const writeButtonEvent = (): void => {
   openWriteDialog();
 };
 // 글쓰기 등록 버튼 클릭 시 입력값 받아서 저장
-const saveContent = async (v: {
-  title: string;
-  content: string;
-}): Promise<void> => {
+const saveContent = async (
+  v: {
+    title: string;
+    content: string;
+  },
+  id?: string,
+): Promise<void> => {
   const user = useGetUserAuth();
   if (writeMode.value === 'ins') {
-    const data = {
+    const params = {
       ...v,
       createdAt: new Date(),
       viewer: 0,
       writer: user?.displayName,
       writerID: user?.email,
     };
-    await setFirestoreData(collectionName, data);
+    await setFirestoreData(collectionName, params);
+  } else if (writeMode.value === 'upd') {
+    const params = {
+      ...v,
+      createdAt: new Date(),
+    };
+    updateFirebaseData(collectionName, id!, params);
   }
   closeWriteDialog();
   await getData();
