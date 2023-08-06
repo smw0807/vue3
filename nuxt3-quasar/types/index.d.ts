@@ -7,7 +7,7 @@ type FirebaseBoardDocType = {
   };
   id: string;
   title: string;
-  viewer: string;
+  viewer: number;
   writer: string;
   writerID: string;
 };
