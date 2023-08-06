@@ -5,6 +5,7 @@ import {
   addDoc,
   doc,
   setDoc,
+  updateDoc,
 } from 'firebase/firestore';
 import type { Firestore, DocumentData } from 'firebase/firestore';
 
@@ -65,8 +66,26 @@ export const setFirestoreData = async <T extends DocumentData>(
 };
 
 /**
- * todo 파이어베이스 컬렉션에 데이터 수정
+ * 파이어베이스 컬렉션 데이터 수정
+ * @param collectionName 데이터 수정할 컬렉션이름
+ * @param id 컬렉션 아이디
+ * @param params 수정할 필드
  */
+export const updateFirebaseData = async <T extends DocumentData>(
+  collectionName: string,
+  id: string,
+  params: T,
+): Promise<boolean> => {
+  let result = false;
+  try {
+    await updateDoc(doc(db(), collectionName, id), params);
+    result = true;
+  } catch (err) {
+    console.error(err);
+    throw new Error('데이터 수정 실패');
+  }
+  return result;
+};
 
 /**
  * todo 파이어베이스 컬렉션에 데이터 삭제
