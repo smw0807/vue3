@@ -8,6 +8,7 @@ import {
   updateDoc,
 } from 'firebase/firestore';
 import type { Firestore, DocumentData } from 'firebase/firestore';
+import { FirestoreDocData } from '../types/firebase';
 
 const db = (): Firestore => {
   const app = useFirebaseApp();
@@ -22,8 +23,8 @@ const db = (): Firestore => {
 export const getFirestoreData = async (
   collectionName: string,
   // params?: where | where[]
-): Promise<(DocumentData & { id: string })[] | []> => {
-  let result: (DocumentData & { id: string })[] = [];
+): Promise<FirestoreDocData> => {
+  let result: FirestoreDocData = [];
   try {
     if (!collectionName) throw new Error('Need CollectionName.');
 
