@@ -6,9 +6,11 @@ import {
   doc,
   setDoc,
   updateDoc,
+  query,
+  where,
 } from 'firebase/firestore';
-import type { Firestore, DocumentData } from 'firebase/firestore';
-import { FirestoreDocData } from '../types/firebase';
+import type { Firestore, DocumentData, Query } from 'firebase/firestore';
+import { FirestoreDocType, FirestoreWhereType } from '../types/firebase';
 
 const db = (): Firestore => {
   const app = useFirebaseApp();
@@ -17,18 +19,27 @@ const db = (): Firestore => {
 
 /**
  * 파이어베이스 컬렉션 데이터 가져오기
- * @param collectionName 가져오 컬렉션 이름
- * @param query 쿼리를 이용해 가져올 경우 사용
+ * @param collectionName 컬렉션 이름 (가져오 컬렉션 이름)
+ * @param searchQuery 검새조건 (쿼리를 이용해 가져올 경우 사용)
  */
 export const getFirestoreData = async (
   collectionName: string,
-  // params?: where | where[]
-): Promise<FirestoreDocData> => {
-  let result: FirestoreDocData = [];
+  searchQuery?: FirestoreWhereType[],
+): Promise<FirestoreDocType> => {
+  let result: FirestoreDocType = [];
   try {
     if (!collectionName) throw new Error('Need CollectionName.');
-
-    const querySnapshot = await getDocs(collection(db(), collectionName));
+    let search: Query = collection(db(), collectionName);
+    // 검색조건이 있을 경우
+    if (searchQuery && searchQuery.length) {
+      searchQuery.forEach((condition) => {
+        search = query(
+          search,
+          where(condition.field, condition.operator, condition.value),
+        );
+      });
+    }
+    const querySnapshot = await getDocs(search);
     if (!querySnapshot.empty) {
       result = querySnapshot.docs.map((doc) => ({
         id: doc.id,
