@@ -56,6 +56,9 @@ const columns: QTableColumn[] = [
 // 테이블 데이터 가져오기
 const getData = async (): Promise<void> => {
   boardStore.lists = await getFirestoreData(collectionName);
+  // boardStore.lists = await getFirestoreData(collectionName, [
+  //   { field: 'writer', operator: '==', value: '송민우' },
+  // ]);
 };
 // 테이블 로우 클릭 이벤트
 const onRowClick = async (
