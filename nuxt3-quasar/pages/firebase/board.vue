@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, watchEffect } from 'vue';
+import { onMounted, ref } from 'vue';
 import type { Ref } from 'vue';
 import type { QTableColumn } from 'quasar';
 import { useBoardStore } from '~/store/useBoardStore';
@@ -72,9 +72,6 @@ const onRowClick = async (
     await getData();
   }
 };
-watchEffect(() => {
-  console.log(rowData);
-});
 // -----------------------------------------
 
 // 글쓰기 관련 변수 및 함수 ----------------------
