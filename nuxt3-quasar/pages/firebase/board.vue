@@ -5,10 +5,6 @@ import type { QTableColumn } from 'quasar';
 import { useBoardStore } from '~/store/useBoardStore';
 
 const boardStore = useBoardStore();
-/**
- * todo
- * 글쓰기 버튼은 로그인 여부 체크해서 활성화 시키게 변경
- */
 
 const lists = computed(() => boardStore.getLists);
 
@@ -84,6 +80,8 @@ watchEffect(() => {
 // 글쓰기 관련 변수 및 함수 ----------------------
 // 모드
 const writeMode: Ref<string> = ref('ins');
+// 글쓰기 버튼 활성화 여부
+const isWriteBtn: Ref<boolean> = ref(true);
 // 글쓰기 모달 활성화 여부
 const showWriteDialog: Ref<boolean> = ref(false);
 
@@ -132,6 +130,10 @@ const closeWriteDialog = (): void => {
 onMounted(async () => {
   await getData();
   tableLoading.value = false;
+  const user = useGetUserAuth();
+  if (user) {
+    isWriteBtn.value = false;
+  }
 });
 </script>
 <template>
@@ -161,6 +163,8 @@ onMounted(async () => {
         <q-space />
         <q-btn
           @click="writeButtonEvent"
+          :disable="isWriteBtn"
+          tool
           push
           color="primary"
           icon="edit"
