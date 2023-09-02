@@ -6,6 +6,7 @@ import {
   doc,
   setDoc,
   updateDoc,
+  deleteDoc,
   query,
   where,
 } from 'firebase/firestore';
@@ -100,5 +101,23 @@ export const updateFirebaseData = async <T extends DocumentData>(
 };
 
 /**
- * todo 파이어베이스 컬렉션에 데이터 삭제
+ * 파이어베이스 컬렉션 데이터 삭제
+ * @param collectionName 데이터 삭제할 컬렉션이름
+ * @param id 삭제할 도큐먼트 아이디
+ * @returns
  */
+export const deleteFirebaseData = async (
+  collectionName: string,
+  id: string,
+): Promise<boolean> => {
+  let result = false;
+  try {
+    const del = await deleteDoc(doc(db(), collectionName, id));
+    console.log('delete result :', del);
+    result = true;
+  } catch (err) {
+    console.error(err);
+    throw new Error('데이터 삭제 실패');
+  }
+  return result;
+};
