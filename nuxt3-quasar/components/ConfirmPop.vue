@@ -38,7 +38,7 @@ const submit = (v: boolean): void => {
       </q-card-section>
 
       <q-card-actions align="right" class="bg-white text-teal">
-        <q-btn flat label="저장" @click="submit(true)" v-close-popup />
+        <q-btn flat label="확인" @click="submit(true)" v-close-popup />
         <q-btn flat label="취소" @click="submit(false)" v-close-popup />
       </q-card-actions>
     </q-card>
