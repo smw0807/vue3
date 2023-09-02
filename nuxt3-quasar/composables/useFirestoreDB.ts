@@ -81,7 +81,7 @@ export const setFirestoreData = async <T extends DocumentData>(
 /**
  * 파이어베이스 컬렉션 데이터 수정
  * @param collectionName 데이터 수정할 컬렉션이름
- * @param id 컬렉션 아이디
+ * @param id 데이터 아이디
  * @param params 수정할 필드
  */
 export const updateFirebaseData = async <T extends DocumentData>(
