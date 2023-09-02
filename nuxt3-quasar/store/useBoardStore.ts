@@ -1,14 +1,12 @@
 import { defineStore } from 'pinia';
-import type { DocumentData } from 'firebase/firestore';
-
-type ListType = (DocumentData & { id: string })[] | [];
+import type { FirestoreDocType } from '../types/firebase';
 
 export const useBoardStore = defineStore('board', {
   state: () => ({
-    lists: [] as ListType,
+    lists: [] as FirestoreDocType,
   }),
   getters: {
-    getLists(): ListType {
+    getLists(): FirestoreDocType {
       return this.lists;
     },
   },
