@@ -20,6 +20,9 @@ const props = withDefaults(defineProps<Props>(), {
 // 컴포넌트 오픈 여부
 const cOpen = computed(() => props.isOpen);
 
+// 삭제여부
+const isDel: Ref<boolean> = ref(false);
+
 // form ref
 const boardContentForm = ref();
 
@@ -51,20 +54,21 @@ const contentRules = (v: string): boolean | string => {
 // confirm 오픈 여부
 const confirmOpen: Ref<boolean> = ref(false);
 // confirm 제목
-const cConfirmTitle = computed(() => {
-  if (props.mode === 'ins') return '글 등록';
-  else return '글 수정';
-});
+const confirmTitle: Ref<string> = ref('');
 // confirm 내용
-const cConfirmText = computed(() => {
-  if (props.mode === 'ins') return '입력한 내용을 등록하시겠습니까?';
-  else return '입력한 내용으로 글을 수정하시겠습니까?';
-});
+const confirmText: Ref<string> = ref('');
 // confirm
 const confirm = async () => {
   try {
     // form 정합성 체크
     const valid = await boardContentForm.value.validate();
+    if (props.mode === 'ins') {
+      confirmTitle.value = '글 등록';
+      confirmText.value = '입력한 내용을 등록하시겠습니까?';
+    } else if (props.mode === 'upd') {
+      confirmTitle.value = '글 수정';
+      confirmText.value = '입력한 내용으로 글을 수정하시겠습니까?';
+    }
     if (valid) confirmOpen.value = true;
   } catch (err) {
     console.error(err);
@@ -72,19 +76,39 @@ const confirm = async () => {
 };
 
 // 입력한 값들을 위로 전파
-const submit = () => {
-  if (props.mode === 'upd') {
-    emits('submit', formData, props.row!.id);
-  } else {
-    emits('submit', formData);
+const submit = (v: boolean) => {
+  if (v) {
+    if (props.mode === 'ins') {
+      emits('submit', 'ins', formData);
+    } else if (props.mode === 'upd' && isDel.value === false) {
+      emits('submit', 'upd', formData, props.row!.id);
+    } else {
+      emits('submit', 'del', null, props.row!.id);
+    }
   }
+  isDel.value = false;
+  confirmOpen.value = false;
 };
 // 모달 닫기
 const close = (): void => {
   emits('close', false);
 };
+
+// 삭제
+const deleteBtn = (): void => {
+  isDel.value = true;
+  confirmTitle.value = '글 삭제';
+  confirmText.value = '해당 글을 삭제하시겠습니까?';
+  confirmOpen.value = true;
+};
 </script>
 <template>
+  <ConfirmPop
+    :is-open="confirmOpen"
+    :title="confirmTitle"
+    :text="confirmText"
+    @submit="submit"
+  />
   <q-dialog v-model="cOpen" persistent>
     <q-card style="min-width: 550px">
       <q-card-section>
@@ -116,31 +140,16 @@ const close = (): void => {
         </q-card-section>
       </q-form>
 
-      <q-card-actions align="right" class="text-primary">
-        <q-btn @click="confirm" color="primary" label="등록" />
-        <q-btn @click="close" outline label="닫기" />
-      </q-card-actions>
-    </q-card>
-  </q-dialog>
-
-  <q-dialog
-    v-model="confirmOpen"
-    persistent
-    transition-show="scale"
-    transition-hide="scale"
-  >
-    <q-card class="bg-teal text-white" style="width: 300px">
-      <q-card-section>
-        <div class="text-h6">{{ cConfirmTitle }}</div>
-      </q-card-section>
-
-      <q-card-section class="q-pt-none">
-        {{ cConfirmText }}
-      </q-card-section>
-
-      <q-card-actions align="right" class="bg-white text-teal">
-        <q-btn flat label="저장" @click="submit" v-close-popup />
-        <q-btn flat label="취소" v-close-popup />
+      <q-card-actions class="text-primary">
+        <div class="row justify-between" style="width: 100%">
+          <div class="col-4">
+            <q-btn color="negative" @click="deleteBtn" label="삭제" />
+          </div>
+          <div class="col-8 text-right">
+            <q-btn @click="confirm" color="primary" label="등록" />
+            <q-btn @click="close" outline label="닫기" />
+          </div>
+        </div>
       </q-card-actions>
     </q-card>
   </q-dialog>

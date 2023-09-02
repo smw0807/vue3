@@ -88,28 +88,31 @@ const writeButtonEvent = (): void => {
 };
 // 글쓰기 등록 버튼 클릭 시 입력값 받아서 저장
 const saveContent = async (
-  v: {
+  mode: string,
+  formData: {
     title: string;
     content: string;
   },
   id?: string,
 ): Promise<void> => {
   const user = useGetUserAuth();
-  if (writeMode.value === 'ins') {
+  if (mode === 'ins') {
     const params = {
-      ...v,
+      ...formData,
       createdAt: new Date(),
       viewer: 0,
       writer: user?.displayName,
       writerID: user?.email,
     };
     await setFirestoreData(collectionName, params);
-  } else if (writeMode.value === 'upd') {
+  } else if (mode === 'upd') {
     const params = {
-      ...v,
+      ...formData,
       createdAt: new Date(),
     };
-    updateFirebaseData(collectionName, id!, params);
+    await updateFirebaseData(collectionName, id!, params);
+  } else {
+    await deleteFirebaseData(collectionName, id!);
   }
   closeWriteDialog();
   await getData();
