@@ -12,12 +12,12 @@ const props = withDefaults(defineProps<Props>(), {
   text: '',
 });
 
-const emits = defineEmits(['submit']);
+const emits = defineEmits(['confirm']);
 
 const cOpen = computed(() => props.isOpen);
 
-const submit = (v: boolean): void => {
-  emits('submit', v);
+const confirm = (v: boolean): void => {
+  emits('confirm', v);
 };
 </script>
 <template>
@@ -38,8 +38,8 @@ const submit = (v: boolean): void => {
       </q-card-section>
 
       <q-card-actions align="right" class="bg-white text-teal">
-        <q-btn flat label="확인" @click="submit(true)" v-close-popup />
-        <q-btn flat label="취소" @click="submit(false)" v-close-popup />
+        <q-btn flat label="확인" @click="confirm(true)" v-close-popup />
+        <q-btn flat label="취소" @click="confirm(false)" v-close-popup />
       </q-card-actions>
     </q-card>
   </q-dialog>

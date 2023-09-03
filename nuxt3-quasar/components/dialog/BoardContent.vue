@@ -107,7 +107,7 @@ const deleteBtn = (): void => {
     :is-open="confirmOpen"
     :title="confirmTitle"
     :text="confirmText"
-    @submit="submit"
+    @confirm="submit"
   />
   <q-dialog v-model="cOpen" persistent>
     <q-card style="min-width: 550px">
