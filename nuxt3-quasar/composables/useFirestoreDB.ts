@@ -112,8 +112,7 @@ export const deleteFirebaseData = async (
 ): Promise<boolean> => {
   let result = false;
   try {
-    const del = await deleteDoc(doc(db(), collectionName, id));
-    console.log('delete result :', del);
+    await deleteDoc(doc(db(), collectionName, id));
     result = true;
   } catch (err) {
     console.error(err);
