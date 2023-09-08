@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
 import type { Ref } from 'vue';
-import { rootMenu, firebaseMenu, quasarMenu } from '~/utils/menus';
+import { rootMenu, firebaseMenu, quasarMenu, nuxtMenu } from '~/utils/menus';
 import { useAuthStore } from '~/store/useAuthStore';
 
 // 스토어에 저장된 사용자 정보
@@ -205,6 +205,25 @@ const toggleLeftDrawer = (): void => {
 
           <q-item
             v-for="item in quasarMenu"
+            :key="item.text"
+            v-ripple
+            clickable
+            :to="item.to"
+          >
+            <q-item-section avatar>
+              <q-icon color="grey" :name="item.icon" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>{{ item.text }}</q-item-label>
+            </q-item-section>
+          </q-item>
+
+          <q-separator class="q-my-md" />
+
+          <q-item-label header class="text-weight-bold"> Nuxt </q-item-label>
+
+          <q-item
+            v-for="item in nuxtMenu"
             :key="item.text"
             v-ripple
             clickable
