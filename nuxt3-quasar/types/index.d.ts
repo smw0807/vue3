@@ -1,3 +1,9 @@
+type MenuType = {
+  icon?: string; // 메뉴 아이콘
+  text: string; //  메뉴 이름
+  to?: string; //   링크
+};
+
 type NullType = null;
 type FirebaseBoardDocType = {
   content: string;
