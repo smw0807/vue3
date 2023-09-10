@@ -8,7 +8,19 @@ const boardStore = useBoardStore();
 
 const lists = computed(() => boardStore.getLists);
 
+// 테이블 상단 -------------------------------------
+// 셀렉트박스 리스트
+const searchFields: { label: string; value: string }[] = [
+  { label: '제목', value: 'title' },
+  { label: '작성자', value: 'writer' },
+];
+// 셀렉트박스 선택 값
+const searchField: Ref<{ label: string; value: string }> = ref(searchFields[0]);
+
 // 테이블 관련 변수 및 함수 -----------------------------
+// 검색 키워드
+const searchKeyword: Ref<string> = ref('');
+// 1개 데이터 정보 담을 변수
 const rowData: Ref<RowType> = ref(null);
 // 테이블 데이터 컬렉션 이름
 const collectionName = 'test-board';
@@ -51,10 +63,14 @@ const columns: QTableColumn[] = [
 ];
 // 테이블 데이터 가져오기
 const getData = async (): Promise<void> => {
-  boardStore.lists = await getFirestoreData(collectionName);
-  // boardStore.lists = await getFirestoreData(collectionName, [
-  //   { field: 'writer', operator: '==', value: '송민우' },
-  // ]);
+  if (searchKeyword.value === '') {
+    boardStore.lists = await getFirestoreData(collectionName);
+  } else {
+    // boardStore.lists = await getFirestoreData(collectionName, [
+    //   { field: 'writer', operator: '==', value: '송민우' },
+    //   { field: 'title', operator: '==', value: '송민우' },
+    // ]);
+  }
 };
 // 테이블 로우 클릭 이벤트
 const onRowClick = async (
@@ -159,7 +175,32 @@ onMounted(async () => {
 
   <div class="q-pa-md">
     <div class="row">
-      <div class="col item-end text-right">
+      <div class="col-md-2 q-mr-sm">
+        <q-select
+          square
+          outlined
+          v-model="searchField"
+          :options="searchFields"
+          label="검색필드"
+          dense
+        />
+      </div>
+      <div class="col">
+        <q-input
+          v-model="searchKeyword"
+          :dark="false"
+          placeholder="제목/작성자로 검색"
+          hide-hint
+          dense
+          @keyup.enter="getData"
+          clearable
+        >
+          <template #append>
+            <q-icon name="search" />
+          </template>
+        </q-input>
+      </div>
+      <div class="col-md-6 item-end text-right">
         <q-space />
         <q-btn
           @click="writeButtonEvent"
