@@ -8,7 +8,11 @@ export const tempMenu: MenuType[] = [
 export const firebaseMenu: MenuType[] = [
   { icon: 'table_view', text: 'Firestore Database', to: '/firebase/database' },
   { icon: 'view_list', text: 'Board', to: '/firebase/board' },
-  { icon: 'drive_folder_upload', text: 'File Board', to: '/firebase/file' },
+  {
+    icon: 'drive_folder_upload',
+    text: 'File Board',
+    to: '/firebase/fileBoard',
+  },
 ];
 export const quasarMenu: MenuType[] = [
   { icon: 'description', text: 'Form', to: '/quasar/form' },
