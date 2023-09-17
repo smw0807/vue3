@@ -66,10 +66,13 @@ const getData = async (): Promise<void> => {
   if (searchKeyword.value === '') {
     boardStore.lists = await getFirestoreData(collectionName);
   } else {
-    // boardStore.lists = await getFirestoreData(collectionName, [
-    //   { field: 'writer', operator: '==', value: '송민우' },
-    //   { field: 'title', operator: '==', value: '송민우' },
-    // ]);
+    boardStore.lists = await getFirestoreData(collectionName, [
+      {
+        field: searchField.value.value,
+        operator: '==',
+        value: searchKeyword.value,
+      },
+    ]);
   }
 };
 // 테이블 로우 클릭 이벤트
@@ -194,13 +197,12 @@ onMounted(async () => {
           dense
           @keyup.enter="getData"
           clearable
-        >
-          <template #append>
-            <q-icon name="search" />
-          </template>
-        </q-input>
+        />
       </div>
-      <div class="col-md-6 item-end text-right">
+      <div class="col q-ml-sm">
+        <q-btn color="primary" icon="search" @click="getData">검색</q-btn>
+      </div>
+      <div class="col-md-5 item-end text-right">
         <q-space />
         <q-btn
           @click="writeButtonEvent"

@@ -25,7 +25,7 @@ const db = (): Firestore => {
  */
 export const getFirestoreData = async (
   collectionName: string,
-  searchQuery?: FirestoreWhereType[],
+  searchQuery?: FirestoreWhereType[] | null,
 ): Promise<FirestoreDocType> => {
   let result: FirestoreDocType = [];
   try {
