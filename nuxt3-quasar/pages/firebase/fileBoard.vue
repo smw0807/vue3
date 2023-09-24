@@ -14,11 +14,14 @@ const confirmTitle: Ref<string> = ref('파일 업로드');
 // confirm 내용
 const confirmText: Ref<string> = ref('첨부된 파일들을 등록하시겠습니까?');
 
+// 컬렉션 이름
+const collectionName = 'test-file';
+
 // 파일 첨부 관련 -------------------------------
 // 첨부 용량 제한값 (5MB)
 const FILE_TOTAL_SIZE = 5 * 1048576;
 // 첨부 파일
-const attachFiles: Ref<File | null> = ref(null);
+const attachFiles: Ref<File[] | null> = ref(null);
 // 파일 업로드 가능 여부
 const isUpload = computed(() => attachFiles.value !== null);
 // 파일업로드 버튼 클릭
@@ -26,9 +29,30 @@ const fileUploadButton = (): void => {
   console.log('fileUploadButton');
   confirmOpen.value = true;
 };
+// Storage에 파일 업로드 처리
+const uploadFiles = (): boolean => {
+  // todo 파일 업로드
+  console.log('uploadFile');
+  console.log(typeof attachFiles.value);
+  useUploadFile(attachFiles);
+  return false;
+};
+//Firestore에 컬렉션 등록
+const createDocument = (): bolean => {
+  // todo 컬렉션 등록
+  return false;
+};
+
 // submit
-const submit = (v: boolean): void => {
-  console.log('submit : ', v);
+const submit = (isOk: boolean): void => {
+  console.log('submit : ', isOk);
+  if (isOk) {
+    // todo 파일 업로드
+    console.log(attachFiles.value);
+    const upload = uploadFiles();
+    console.log('upload : ', upload);
+    // todo 도큐먼트 생성
+  }
   confirmOpen.value = false;
 };
 
@@ -56,7 +80,7 @@ onMounted(() => {});
 
   <div class="q-pa-md">
     <div class="row no-wrap">
-      <q-space />
+      <!-- <q-space /> -->
       <q-file
         v-model="attachFiles"
         dense
