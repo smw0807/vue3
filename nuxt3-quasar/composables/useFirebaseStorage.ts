@@ -15,28 +15,35 @@ const storage = (): FirebaseStorage => {
   return getStorage(app);
 };
 
-// 파이어베이스 스토리지에 파일 업로드
-export const useUploadFile = async (files: Ref<File[] | null>) => {
-  console.log('composibale useUploadFile : ', files.value);
-
-  // todo 파일명 중복피할 방법으로 어떤 형시으로 스토리지에 올릴지 고민해보기.
+/**
+ * 파일 업로드 처리
+ * @param files 업로드할 파일들
+ * @returns
+ */
+export const useUploadFile = async (
+  files: Ref<File[] | null>,
+): Promise<StringKeyValueType[] | null> => {
   if (files.value) {
     const uploadPromises = files.value.map((file) => {
       const fileRef = storageRef(
         storage(),
-        `${FILE_DIR_PATH}/${file.lastModified}${file.name}`,
+        // 스토리지에 파일 중복 방지를 위해 시간|| 를 파일명 앞에 붙여줌
+        `${FILE_DIR_PATH}/${new Date().getTime()}||${file.name}`,
       );
       return uploadBytesResumable(fileRef, file);
     });
     try {
       const snapshotArray = await Promise.all(uploadPromises);
       const downloadURLs = await Promise.all(
-        snapshotArray.map((snap) => getDownloadURL(snap.ref)),
+        snapshotArray.map(async (snap) => ({
+          [snap.metadata.name.split('||')[1]]: await getDownloadURL(snap.ref),
+        })),
       );
-      console.log('Download URLs:', downloadURLs);
+      return downloadURLs;
     } catch (err) {
       console.error(err);
       throw new Error('파일 업로드 실패');
     }
   }
+  return null;
 };
