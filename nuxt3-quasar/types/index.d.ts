@@ -5,6 +5,8 @@ type MenuType = {
   to?: string; //   링크
 };
 
+type StringKeyValueType = { [x: string]: string };
+
 type NullType = null;
 
 // 파이어베이스 게시판 컬렉션 데이터 타입
@@ -32,7 +34,6 @@ type BoardUpdateType = Pick<FirebaseBoardDocType, 'id' | 'title' | 'content'>;
 type FileUploadDocType = {
   fileName: string; // 파일명
   fileType: string; // 파일유형
-  filePath: string; // 파일경로(스토리지 경로)
   fileSize: number; //파일 사이즈
   downloadURL: string; // 파일 다운로드 URL
   // 스토리지 및 파이어스토어 등록시간
@@ -46,4 +47,12 @@ type FileUploadDocType = {
   downloadCount: number; // 파일 다운로드 횟수
 };
 
-type FileUploadType = {};
+type FileUploadType = {
+  fileName: string; // 파일명
+  fileType: string; // 파일유형
+  fileSize: number; //파일 사이즈
+  downloadURL: string; // 파일 다운로드 URL
+  uploader: string; // 파일 업로드한 사람
+  uploaderID: string; // 파일 업로드한 사람 아이디(또는 이메일)
+  downloadCount: number; // 파일 다운로드 횟수
+};
