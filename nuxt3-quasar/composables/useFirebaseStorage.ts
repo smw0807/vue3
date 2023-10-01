@@ -2,7 +2,6 @@ import {
   getStorage,
   ref as storageRef,
   FirebaseStorage,
-  // uploadBytes,
   uploadBytesResumable,
   getDownloadURL,
 } from 'firebase/storage';
@@ -18,7 +17,7 @@ const storage = (): FirebaseStorage => {
 /**
  * 파일 업로드 처리
  * @param files 업로드할 파일들
- * @returns
+ * @returns [ { 커스텀파일명 : 파일 다운로드 URL} ]
  */
 export const useUploadFile = async (
   files: Ref<File[] | null>,

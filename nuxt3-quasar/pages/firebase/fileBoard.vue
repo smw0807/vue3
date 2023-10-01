@@ -49,6 +49,7 @@ const createDocument = async (urls: StringKeyValueType[]): Promise<void> => {
 
   const params: FileUploadType[] = [];
   for (const file of attachFiles.value) {
+    // urls에서 첨부파일명과 매칭되는 객체 찾기
     const url = urls.find((v) => v[file.name]);
     params.push({
       fileName: file.name,
@@ -80,6 +81,7 @@ const submit = async (isOk: boolean): Promise<void> => {
 
   // 파이어스토어에 데이터 추가
   await createDocument(upload);
+  // 첨부 파일 초기화
   clearAttachFiles();
 };
 
