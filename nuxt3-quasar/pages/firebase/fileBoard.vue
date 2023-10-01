@@ -26,36 +26,69 @@ const attachFiles: Ref<File[] | null> = ref(null);
 const isUpload = computed(() => attachFiles.value !== null);
 // 파일업로드 버튼 클릭
 const fileUploadButton = (): void => {
-  console.log('fileUploadButton');
   confirmOpen.value = true;
 };
-// Storage에 파일 업로드 처리
-const uploadFiles = (): boolean => {
-  // todo 파일 업로드
-  console.log('uploadFile');
-  console.log(typeof attachFiles.value);
-  useUploadFile(attachFiles);
-  return false;
+// 첨부파일 클리어
+const clearAttachFiles = (): void => {
+  attachFiles.value = null;
 };
-//Firestore에 컬렉션 등록
-const createDocument = (): bolean => {
-  // todo 컬렉션 등록
-  return false;
+// Storage에 파일 업로드 처리
+const uploadFiles = async (): Promise<StringKeyValueType[] | null> => {
+  // todo 파일 업로드
+  return await useUploadFile(attachFiles);
+};
+
+// Firestore에 컬렉션 등록
+const createDocument = async (urls: StringKeyValueType[]): Promise<void> => {
+  // 첨부되 파일이 없으면
+  if (!attachFiles.value) return;
+
+  const user = useGetUserAuth();
+  // 로그인한 유저 정보가 없으면
+  if (!user) throw new Error('로그인해주시기 바랍니다.');
+
+  const params: FileUploadType[] = [];
+  for (const file of attachFiles.value) {
+    const url = urls.find((v) => v[file.name]);
+    params.push({
+      fileName: file.name,
+      fileSize: file.size,
+      fileType: file.type,
+      downloadURL: url ? url[file.name] : '',
+      uploader: user.displayName!,
+      uploaderID: user.email!,
+      downloadCount: 0,
+    });
+  }
+  const upload = params.map((v) => setFirestoreData(collectionName, v));
+  try {
+    // 데이터들 등록
+    await Promise.all(upload);
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 // submit
-const submit = (isOk: boolean): void => {
-  console.log('submit : ', isOk);
-  if (isOk) {
-    // todo 파일 업로드
-    console.log(attachFiles.value);
-    const upload = uploadFiles();
-    console.log('upload : ', upload);
-    // todo 도큐먼트 생성
-  }
+const submit = async (isOk: boolean): Promise<void> => {
   confirmOpen.value = false;
+  if (!isOk) return;
+
+  // 스토리지에 파일 업로드
+  const upload = await uploadFiles();
+  if (!upload) return;
+
+  // 파이어스토어에 데이터 추가
+  await createDocument(upload);
+  clearAttachFiles();
 };
 
+/**
+ * todo
+ * 1. 파일 첨부되는 동안 로딩
+ * 2. 첨부 완료시 alert
+ * 3. 파일 리스트 가져오기
+ */
 onMounted(() => {});
 </script>
 <template>
