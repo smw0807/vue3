@@ -55,4 +55,5 @@ type FileUploadType = {
   uploader: string; // 파일 업로드한 사람
   uploaderID: string; // 파일 업로드한 사람 아이디(또는 이메일)
   downloadCount: number; // 파일 다운로드 횟수
+  createdAt: Date; //파일 업로드 시간
 };
