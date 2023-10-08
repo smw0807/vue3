@@ -18,9 +18,6 @@ const confirmTitle: Ref<string> = ref('파일 업로드');
 // confirm 내용
 const confirmText: Ref<string> = ref('첨부된 파일들을 등록하시겠습니까?');
 
-// 컬렉션 이름
-const collectionName = 'test-file';
-
 // 파일 첨부 관련 -------------------------------
 // 첨부 용량 제한값 (5MB)
 const FILE_TOTAL_SIZE = 5 * 1048576;
@@ -66,7 +63,7 @@ const createDocument = async (urls: StringKeyValueType[]): Promise<void> => {
       createdAt: new Date(),
     });
   }
-  const upload = params.map((v) => setFirestoreData(collectionName, v));
+  const upload = params.map((v) => setFirestoreData(store.collectionName, v));
   try {
     // 데이터들 등록
     await Promise.all(upload);
