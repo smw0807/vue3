@@ -21,73 +21,39 @@ const confirmText: Ref<string> = ref('첨부된 파일들을 등록하시겠습�
 // 파일 첨부 관련 -------------------------------
 // 첨부 용량 제한값 (5MB)
 const FILE_TOTAL_SIZE = 5 * 1048576;
-// 첨부 파일
-const attachFiles: Ref<File[] | null> = ref(null);
+
 // 파일 업로드 가능 여부
-const isUpload = computed(() => attachFiles.value !== null);
+const isUpload = computed(() => store.attachFiles !== null);
 // 파일업로드 버튼 클릭
 const fileUploadButton = (): void => {
   confirmOpen.value = true;
 };
 // 첨부파일 클리어
 const clearAttachFiles = (): void => {
-  attachFiles.value = null;
+  store.attachFiles = null;
 };
-// Storage에 파일 업로드 처리
-const uploadFiles = async (): Promise<StringKeyValueType[] | null> => {
-  // todo 파일 업로드
-  return await useUploadFile(attachFiles);
-};
-
-// Firestore에 컬렉션 등록
-const createDocument = async (urls: StringKeyValueType[]): Promise<void> => {
-  // 첨부되 파일이 없으면
-  if (!attachFiles.value) return;
-
-  const user = useGetUserAuth();
-  // 로그인한 유저 정보가 없으면
-  if (!user) throw new Error('로그인해주시기 바랍니다.');
-
-  const params: FileUploadType[] = [];
-  for (const file of attachFiles.value) {
-    // urls에서 첨부파일명과 매칭되는 객체 찾기
-    const url = urls.find((v) => v[file.name]);
-    params.push({
-      fileName: file.name,
-      fileSize: file.size,
-      fileType: file.type,
-      downloadURL: url ? url[file.name] : '',
-      uploader: user.displayName!,
-      uploaderID: user.email!,
-      downloadCount: 0,
-      createdAt: new Date(),
-    });
-  }
-  const upload = params.map((v) => setFirestoreData(store.collectionName, v));
-  try {
-    // 데이터들 등록
-    await Promise.all(upload);
-  } catch (err) {
-    console.error(err);
-  }
-};
-
 // submit
 const submit = async (isOk: boolean): Promise<void> => {
   confirmOpen.value = false;
   if (!isOk) return;
 
   // 스토리지에 파일 업로드
-  const upload = await uploadFiles();
+  const upload = await store.uploadFiles();
   if (!upload) return;
 
   // 파이어스토어에 데이터 추가
-  await createDocument(upload);
+  await store.createDocument(upload);
   // 첨부 파일 초기화
   clearAttachFiles();
+  // 리스트 새로 불러오기
+  tableLoading.value = true;
+  await store.getListData();
+  tableLoading.value = false;
 };
 
 // 테이블 관련 -----------------------------
+// 테이블 로딩
+const tableLoading: Ref<boolean> = ref(true);
 // 테이블 컬럼
 const columns: QTableColumn[] = [
   {
@@ -123,18 +89,17 @@ const columns: QTableColumn[] = [
     sortable: true,
   },
 ];
-// 테이블 데이터 가져오기
-const getData = async (): Promise<void> => {
-  await store.getListData();
-};
+
 /**
  * todo
  * 1. 파일 첨부되는 동안 로딩
  * 2. 첨부 완료시 alert
  * 3. 파일 리스트 가져오기
  */
-onMounted(() => {
-  getData();
+onMounted(async () => {
+  // 테이블 데이터 가져오기
+  await store.getListData();
+  tableLoading.value = false;
 });
 </script>
 <template>
@@ -161,7 +126,7 @@ onMounted(() => {
     <div class="row no-wrap">
       <!-- <q-space /> -->
       <q-file
-        v-model="attachFiles"
+        v-model="store.attachFiles"
         dense
         outlined
         use-chips
@@ -191,6 +156,7 @@ onMounted(() => {
       <div class="col">
         <q-table
           bordered
+          :loading="tableLoading"
           title="등록된 파일 리스트"
           :columns="columns"
           :rows="store.list"
