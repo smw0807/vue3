@@ -6,6 +6,10 @@
  */
 import { onMounted, ref, computed } from 'vue';
 import type { Ref } from 'vue';
+import type { QTableColumn } from 'quasar';
+import { useFileBoardStore } from '~/store/useFileBoardStore';
+
+const store = useFileBoardStore();
 
 // confirm 오픈 여부
 const confirmOpen: Ref<boolean> = ref(false);
@@ -59,6 +63,7 @@ const createDocument = async (urls: StringKeyValueType[]): Promise<void> => {
       uploader: user.displayName!,
       uploaderID: user.email!,
       downloadCount: 0,
+      createdAt: new Date(),
     });
   }
   const upload = params.map((v) => setFirestoreData(collectionName, v));
@@ -85,13 +90,55 @@ const submit = async (isOk: boolean): Promise<void> => {
   clearAttachFiles();
 };
 
+// 테이블 관련 -----------------------------
+// 테이블 컬럼
+const columns: QTableColumn[] = [
+  {
+    name: 'fileName',
+    label: '파일명',
+    field: 'fileName',
+    align: 'left',
+    headerStyle: 'width: 20%',
+    sortable: true,
+  },
+  {
+    name: 'uploader',
+    label: '등록자',
+    field: 'uploader',
+    align: 'center',
+    sortable: true,
+  },
+  {
+    name: 'createdAt',
+    label: '등록일',
+    field: 'createdAt',
+    align: 'center',
+    sortable: true,
+    format(val, _row) {
+      return val.toDate().toLocaleString();
+    },
+  },
+  {
+    name: 'downloadCount',
+    label: '다운로드수',
+    field: 'downloadCount',
+    align: 'center',
+    sortable: true,
+  },
+];
+// 테이블 데이터 가져오기
+const getData = async (): Promise<void> => {
+  await store.getListData();
+};
 /**
  * todo
  * 1. 파일 첨부되는 동안 로딩
  * 2. 첨부 완료시 alert
  * 3. 파일 리스트 가져오기
  */
-onMounted(() => {});
+onMounted(() => {
+  getData();
+});
 </script>
 <template>
   <ConfirmPop
@@ -145,7 +192,12 @@ onMounted(() => {});
     </div>
     <div class="row q-mt-sm">
       <div class="col">
-        <q-table />
+        <q-table
+          bordered
+          title="등록된 파일 리스트"
+          :columns="columns"
+          :rows="store.list"
+        />
       </div>
     </div>
   </div>
