@@ -22,8 +22,6 @@ const searchField: Ref<{ label: string; value: string }> = ref(searchFields[0]);
 const searchKeyword: Ref<string> = ref('');
 // 1개 데이터 정보 담을 변수
 const rowData: Ref<RowType> = ref(null);
-// 테이블 데이터 컬렉션 이름
-const collectionName = 'test-board';
 // 테이블 로딩
 const tableLoading: Ref<boolean> = ref(true);
 // 테이블 컬럼
@@ -64,15 +62,12 @@ const columns: QTableColumn[] = [
 // 테이블 데이터 가져오기
 const getData = async (): Promise<void> => {
   if (searchKeyword.value === '') {
-    boardStore.lists = await getFirestoreData(collectionName);
+    await boardStore.getListData();
   } else {
-    boardStore.lists = await getFirestoreData(collectionName, [
-      {
-        field: searchField.value.value,
-        operator: '==',
-        value: searchKeyword.value,
-      },
-    ]);
+    await boardStore.getListData({
+      field: searchField.value.value,
+      keyword: searchKeyword.value,
+    });
   }
 };
 // 테이블 로우 클릭 이벤트
@@ -82,9 +77,7 @@ const onRowClick = async (
   _idx: number,
 ): Promise<void> => {
   if (row) {
-    await updateFirebaseData(collectionName, row?.id, {
-      viewer: Number(row?.viewer) + 1,
-    });
+    await boardStore.incrementVirew(row);
     writeMode.value = 'upd';
     rowData.value = row;
     openWriteDialog();
@@ -114,24 +107,12 @@ const saveContent = async (
   },
   id?: string,
 ): Promise<void> => {
-  const user = useGetUserAuth();
   if (mode === 'ins') {
-    const params = {
-      ...formData,
-      createdAt: new Date(),
-      viewer: 0,
-      writer: user?.displayName,
-      writerID: user?.email,
-    };
-    await setFirestoreData(collectionName, params);
+    await boardStore.insertContent({ ...formData });
   } else if (mode === 'upd') {
-    const params = {
-      ...formData,
-      createdAt: new Date(),
-    };
-    await updateFirebaseData(collectionName, id!, params);
+    if (id) await boardStore.updateContent(id, { ...formData });
   } else {
-    await deleteFirebaseData(collectionName, id!);
+    await boardStore.deleteContent(id!);
   }
   closeWriteDialog();
   await getData();
