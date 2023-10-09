@@ -7,6 +7,9 @@ import { useAuthStore } from '~/store/useAuthStore';
 // 스토어에 저장된 사용자 정보
 const authStore = useAuthStore();
 
+// 유저 정보 결과 오기전까지 사용할 스피너
+const isWaitingSpinner: Ref<boolean> = ref(true);
+
 const cNowUser = computed(() => authStore.getUserAuth);
 
 // 로그인
@@ -26,12 +29,10 @@ const signOut = (): void => {
 
 // 현재 로그인한 사용자 가져오기
 const getNowUser = (): void => {
+  isWaitingSpinner.value = true;
   useGetNowUserAuth((user) => {
-    /**
-     * todo
-     * 결과가 오기전까지 로그인 버튼, 프로필 버튼 쪽 부자연스러운 부분 해결하기
-     */
     authStore.userAuth = user;
+    isWaitingSpinner.value = false;
   });
 };
 onMounted(() => {
@@ -109,7 +110,9 @@ const toggleLeftDrawer = (): void => {
             <q-tooltip>Notifications</q-tooltip>
           </q-btn>
 
-          <q-btn v-if="cNowUser" round flat>
+          <q-spinner-oval v-if="isWaitingSpinner" :thickness="3" />
+
+          <q-btn v-else-if="cNowUser" round flat>
             <q-avatar size="26px">
               <img v-if="cNowUser.photoURL" :src="cNowUser.photoURL" />
               <img v-else src="person" />
@@ -144,7 +147,14 @@ const toggleLeftDrawer = (): void => {
             </q-menu>
             <q-tooltip>My Info</q-tooltip>
           </q-btn>
-          <q-btn v-else @click="signIn" round dense flat icon="login">
+          <q-btn
+            v-else-if="!isWaitingSpinner"
+            @click="signIn"
+            round
+            dense
+            flat
+            icon="login"
+          >
             <q-tooltip>Login</q-tooltip>
           </q-btn>
         </div>
