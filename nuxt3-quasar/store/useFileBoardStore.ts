@@ -14,12 +14,11 @@ export const useFileBoardStore = defineStore('fileBoard', {
   },
   actions: {
     // 리스트 가져오기
-    async getListData() {
+    async getListData(): Promise<void> {
       this.list = await getFirestoreData(this.collectionName);
     },
     // 파일 업로드하기
     async uploadFiles(): Promise<StringKeyValueType[] | null> {
-      // todo 파일 업로드
       return await useUploadFile(this.attachFiles);
     },
     // 업로드 파일 정보 컬렉션에 등록하기
