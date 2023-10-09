@@ -6,8 +6,6 @@ import { useBoardStore } from '~/store/useBoardStore';
 
 const boardStore = useBoardStore();
 
-const lists = computed(() => boardStore.getLists);
-
 // 테이블 상단 -------------------------------------
 // 셀렉트박스 리스트
 const searchFields: { label: string; value: string }[] = [
@@ -203,7 +201,7 @@ onMounted(async () => {
           title=""
           @row-click="onRowClick"
           :loading="tableLoading"
-          :rows="lists"
+          :rows="boardStore.lists"
           :columns="columns"
           no-data-label="No Data."
           row-key="name"
