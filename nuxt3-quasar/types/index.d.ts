@@ -25,10 +25,8 @@ type FirebaseBoardDocType = {
 
 // 파이어베이스 게시판 컬렉션 1개 데이터 타입
 type RowType = FirebaseBoardDocType | NullType;
-// 파이어베이스 게시판 컬렉션 데이터 추가할 때 타입
-type BoardInsertType = Pick<FirebaseBoardDocType, 'title' | 'content'>;
-// 파이어베이스 게시판 컬렉션 데이터 수정할 때 타입
-type BoardUpdateType = Pick<FirebaseBoardDocType, 'id' | 'title' | 'content'>;
+// 파이어베이스 게시판 컬렉션 데이터 등록 수정 할 때 타입
+type BoardInsUpdType = Pick<FirebaseBoardDocType, 'title' | 'content'>;
 
 // 파이어베이스 파일게시판 컬렉션 데이터 타입
 type FileUploadDocType = {
