@@ -60,7 +60,7 @@ const columns: QTableColumn[] = [
     name: 'fileName',
     label: '파일명',
     field: 'fileName',
-    align: 'left',
+    align: 'center',
     headerStyle: 'width: 20%',
     sortable: true,
   },
@@ -87,6 +87,12 @@ const columns: QTableColumn[] = [
     field: 'downloadCount',
     align: 'center',
     sortable: true,
+  },
+  {
+    name: 'donwloadURL',
+    label: '다운로드',
+    field: 'downloadURL',
+    align: 'center',
   },
 ];
 
@@ -160,7 +166,20 @@ onMounted(async () => {
           title="등록된 파일 리스트"
           :columns="columns"
           :rows="store.list"
-        />
+        >
+          <template #body="{ row }">
+            <tr :props="row" class="text-center">
+              <td>{{ row.fileName }}</td>
+              <td>{{ row.uploader }}</td>
+              <td>{{ row.createdAt.toDate().toLocaleString() }}</td>
+              <td>{{ row.downloadCount }}</td>
+              <!-- <td>{{ row.downloadURL }}</td> -->
+              <td>
+                <q-btn icon="download" color="deep-orange" size="sm" round />
+              </td>
+            </tr>
+          </template>
+        </q-table>
       </div>
     </div>
   </div>
