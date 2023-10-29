@@ -30,10 +30,12 @@ const signOut = (): void => {
 // 현재 로그인한 사용자 가져오기
 const getNowUser = (): void => {
   isWaitingSpinner.value = true;
-  useGetNowUserAuth((user) => {
-    authStore.userAuth = user;
-    isWaitingSpinner.value = false;
-  });
+  try {
+    useGetNowUserAuth((user) => {
+      authStore.userAuth = user;
+      isWaitingSpinner.value = false;
+    });
+  } catch (err) {}
 };
 onMounted(() => {
   getNowUser();

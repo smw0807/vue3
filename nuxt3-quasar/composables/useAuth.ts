@@ -75,7 +75,7 @@ export const useGetNowUserAuth = (
       }
     });
   } catch (err) {
-    console.error(err);
+    callback(null);
     throw new Error('현재 사용자 정보 가져오기 실패');
   }
 };
