@@ -95,6 +95,13 @@ const columns: QTableColumn[] = [
     align: 'center',
   },
 ];
+// 파일다운로드 버튼
+const fileDownloadBtn = (fileName: string, downloadURL: string) => {
+  console.log('fileDownloadBtn');
+  console.log(fileName);
+  console.log(downloadURL);
+  useDownloadFileWithURL(fileName, downloadURL);
+};
 
 /**
  * todo
@@ -175,7 +182,13 @@ onMounted(async () => {
               <td>{{ row.downloadCount }}</td>
               <!-- <td>{{ row.downloadURL }}</td> -->
               <td>
-                <q-btn icon="download" color="deep-orange" size="sm" round />
+                <q-btn
+                  icon="download"
+                  color="deep-orange"
+                  size="sm"
+                  round
+                  @click="fileDownloadBtn(row.fileName, row.downloadURL)"
+                />
               </td>
             </tr>
           </template>

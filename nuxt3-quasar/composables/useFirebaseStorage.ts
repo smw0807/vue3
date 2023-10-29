@@ -45,3 +45,46 @@ export const useUploadFile = async (
   }
   return null;
 };
+
+export const useDownloadFileWithURL = (
+  fileName: string,
+  downloadURL: string,
+) => {
+  try {
+    const downloadMiddlewareUrl = `/api/firebaseProxy?fileUrl=${encodeURIComponent(
+      downloadURL,
+    )}`;
+    console.log('downloadMiddlewareUrl : ', downloadMiddlewareUrl);
+
+    // fetch(downloadURL)
+    //   .then((response) => response.blob())
+    //   .then((blob) => {
+    //     const blobUrl = window.URL.createObjectURL(blob);
+    //     const link = document.createElement('a');
+    //     link.href = blobUrl;
+    //     link.download = fileName;
+    //     document.body.appendChild(link);
+    //     link.click();
+    //     document.body.removeChild(link);
+    //     window.URL.revokeObjectURL(blobUrl);
+    //   });
+
+    // const fileStorageRef = storageRef(
+    //   storage(),
+    //   downloadURL.replace(FILE_DIR_PATH, ''),
+    // );
+    // console.log('fileStorageRef : ', fileStorageRef);
+    // const downloadUrl = await getDownloadURL(fileStorageRef);
+    // console.log('downloadUrl : ', downloadUrl);
+
+    // const link = document.createElement('a');
+    // link.href = downloadUrl;
+    // link.download = fileName;
+    // document.body.appendChild(link);
+    // link.click();
+    // document.body.removeChild(link);
+  } catch (err) {
+    console.error(err);
+    throw new Error('파일 다운로드 실패');
+  }
+};
