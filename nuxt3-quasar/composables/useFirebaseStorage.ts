@@ -46,43 +46,26 @@ export const useUploadFile = async (
   return null;
 };
 
-export const useDownloadFileWithURL = (
+/**
+ * 스토리지 파일URL을 이용한 파일 다운로드
+ * @param fileName 파일명
+ * @param downloadURL 다운로드URL
+ */
+export const useDownloadFileWithURL = async (
   fileName: string,
   downloadURL: string,
 ) => {
   try {
-    const downloadMiddlewareUrl = `/api/firebaseProxy?fileUrl=${encodeURIComponent(
-      downloadURL,
-    )}`;
-    console.log('downloadMiddlewareUrl : ', downloadMiddlewareUrl);
+    const response = await fetch(downloadURL);
+    const blob = await response.blob();
 
-    // fetch(downloadURL)
-    //   .then((response) => response.blob())
-    //   .then((blob) => {
-    //     const blobUrl = window.URL.createObjectURL(blob);
-    //     const link = document.createElement('a');
-    //     link.href = blobUrl;
-    //     link.download = fileName;
-    //     document.body.appendChild(link);
-    //     link.click();
-    //     document.body.removeChild(link);
-    //     window.URL.revokeObjectURL(blobUrl);
-    //   });
-
-    // const fileStorageRef = storageRef(
-    //   storage(),
-    //   downloadURL.replace(FILE_DIR_PATH, ''),
-    // );
-    // console.log('fileStorageRef : ', fileStorageRef);
-    // const downloadUrl = await getDownloadURL(fileStorageRef);
-    // console.log('downloadUrl : ', downloadUrl);
-
-    // const link = document.createElement('a');
-    // link.href = downloadUrl;
-    // link.download = fileName;
-    // document.body.appendChild(link);
-    // link.click();
-    // document.body.removeChild(link);
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', fileName); // 원하는 파일 이름을 지정하세요
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   } catch (err) {
     console.error(err);
     throw new Error('파일 다운로드 실패');

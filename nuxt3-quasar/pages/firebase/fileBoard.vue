@@ -97,9 +97,6 @@ const columns: QTableColumn[] = [
 ];
 // 파일다운로드 버튼
 const fileDownloadBtn = (fileName: string, downloadURL: string) => {
-  console.log('fileDownloadBtn');
-  console.log(fileName);
-  console.log(downloadURL);
   useDownloadFileWithURL(fileName, downloadURL);
 };
 
