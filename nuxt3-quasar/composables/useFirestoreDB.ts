@@ -1,6 +1,7 @@
 import {
   getFirestore,
   collection,
+  getDoc,
   getDocs,
   addDoc,
   doc,
@@ -52,6 +53,28 @@ export const getFirestoreData = async (
     throw new Error('데이터 가져오기 실패');
   }
   return result;
+};
+
+/**
+ * 파이어베이스 컬렉션에서 단일 데이터 가져오기
+ * @param collectionName 컬렉션이름
+ * @param id 문서 아이디
+ */
+export const getFirestoreDoc = async (
+  collectionName: string,
+  id: string,
+): Promise<DocumentData | null> => {
+  try {
+    const docRef = doc(db(), collectionName, id);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return docSnap.data();
+    } else {
+      return null;
+    }
+  } catch (err) {
+    throw new Error('데이터 가져오기 실패');
+  }
 };
 
 /**
