@@ -55,5 +55,25 @@ export const useFileBoardStore = defineStore('fileBoard', {
         console.error(err);
       }
     },
+    // 파일 다운로드
+    async downloadFile(
+      id: string,
+      fileName: string,
+      downloadURL: string,
+    ): Promise<void> {
+      console.log(' id : ', id);
+      // 파일 다운로드
+      useDownloadFileWithURL(fileName, downloadURL);
+      // 파일 다운로드 수 +1
+      // const row = await getFirestoreDoc(this.collectionName, id);
+      // console.log(row);
+      // if (row) {
+      //   await updateFirebaseData(this.collectionName, id, {
+      //     ...row,
+      //     downloadCount: row.downloadCount,
+      //   });
+      //   await this.getListData();
+      // }
+    },
   },
 });

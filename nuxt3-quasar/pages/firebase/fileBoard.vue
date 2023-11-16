@@ -96,8 +96,8 @@ const columns: QTableColumn[] = [
   },
 ];
 // 파일다운로드 버튼
-const fileDownloadBtn = (fileName: string, downloadURL: string) => {
-  useDownloadFileWithURL(fileName, downloadURL);
+const fileDownloadBtn = (id: string, fileName: string, downloadURL: string) => {
+  store.downloadFile(id, fileName, downloadURL);
 };
 
 /**
@@ -184,7 +184,9 @@ onMounted(async () => {
                   color="deep-orange"
                   size="sm"
                   round
-                  @click="fileDownloadBtn(row.fileName, row.downloadURL)"
+                  @click="
+                    fileDownloadBtn(row.id, row.fileName, row.downloadURL)
+                  "
                 />
               </td>
             </tr>
