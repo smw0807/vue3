@@ -1,5 +1,5 @@
 import { route } from 'quasar/wrappers';
-import { createRouter, createWebHashHistory } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 
 import routes from './routes';
 
@@ -20,7 +20,7 @@ export default route(function (/* { store, ssrContext } */) {
     // Leave this as is and make changes in quasar.conf.js instead!
     // quasar.conf.js -> build -> vueRouterMode
     // quasar.conf.js -> build -> publicPath
-    history: createWebHashHistory(),
+    history: createWebHistory(),
   });
 
   return Router;
