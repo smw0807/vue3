@@ -61,6 +61,12 @@ const essentialLinks: EssentialLinkProps[] = [
     link: '/infinite-scroll',
   },
   {
+    title: 'ArrayTest',
+    caption: 'Array Test',
+    icon: 'code',
+    link: 'array-test',
+  },
+  {
     title: 'Discord Chat Channel',
     caption: 'chat.quasar.dev',
     icon: 'chat',
