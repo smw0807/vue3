@@ -6,7 +6,7 @@ export const tempMenu: MenuType[] = [
   { icon: 'thumb_up_alt', text: 'Liked videos' },
 ];
 export const firebaseMenu: MenuType[] = [
-  { icon: 'table_view', text: 'Firestore Database', to: '/firebase/database' },
+  // { icon: 'table_view', text: 'Firestore Database', to: '/firebase/database' },
   { icon: 'view_list', text: 'Board', to: '/firebase/board' },
   {
     icon: 'drive_folder_upload',
