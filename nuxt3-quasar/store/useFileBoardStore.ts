@@ -63,7 +63,7 @@ export const useFileBoardStore = defineStore('fileBoard', {
     ): Promise<void> {
       console.log(' id : ', id);
       // 파일 다운로드
-      useDownloadFileWithURL(fileName, downloadURL);
+      await useDownloadFileWithURL(fileName, downloadURL);
       // 파일 다운로드 수 +1
       // const row = await getFirestoreDoc(this.collectionName, id);
       // console.log(row);
