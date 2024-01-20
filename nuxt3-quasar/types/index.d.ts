@@ -9,6 +9,11 @@ type StringKeyValueType = { [x: string]: string };
 
 type NullType = null;
 
+type BoardInsertType = {
+  title: string;
+  content: string;
+};
+
 // 파이어베이스 게시판 컬렉션 데이터 타입
 type FirebaseBoardDocType = {
   content: string;
