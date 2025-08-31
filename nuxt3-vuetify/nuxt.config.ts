@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxt/icon',
     '@nuxt/image',
-    '@nuxt/content'
-  ]
-})
+    '@nuxt/content',
+    'vuetify-nuxt-module',
+  ],
+});
