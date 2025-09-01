@@ -10,5 +10,6 @@ export default defineNuxtConfig({
     '@nuxt/content',
     'vuetify-nuxt-module',
     '@vueuse/nuxt',
+    '@pinia/nuxt',
   ],
 });
