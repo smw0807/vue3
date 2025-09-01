@@ -9,5 +9,6 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxt/content',
     'vuetify-nuxt-module',
+    '@vueuse/nuxt',
   ],
 });
