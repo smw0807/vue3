@@ -16,6 +16,8 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       API_URL: process.env.API_URL,
+      ACCESS_TOKEN: process.env.ACCESS_TOKEN_NAME,
+      REFRESH_TOKEN: process.env.REFRESH_TOKEN_NAME,
     },
   },
 });
