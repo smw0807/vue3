@@ -2,8 +2,11 @@
 <template>
   <div>
     <v-app>
-      login layout
-      <slot />
+      <v-main>
+        <v-container class="d-flex justify-center align-center h-100">
+          <slot />
+        </v-container>
+      </v-main>
     </v-app>
   </div>
 </template>
