@@ -1,5 +1,15 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import { useUserStore } from '~/store/user';
+
+const { getUser } = useUserStore();
+
+onMounted(() => {
+  console.log(getUser);
+  if (!getUser) {
+    navigateTo('/login');
+  }
+});
 
 const links = [
   ['mdi-inbox-arrow-down', 'Inbox'],
