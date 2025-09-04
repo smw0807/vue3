@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import useToken from '~/composables/useToken';
+import { emailRules, passwordRules } from '~/utils/rules';
+
 import SignUp from '~/components/modal/SignUp.vue';
 
 definePageMeta({
@@ -7,9 +10,37 @@ definePageMeta({
 
 const email = ref('');
 const password = ref('');
+const loginForm = ref();
 
-const handleLogin = () => {
+const handleLogin = async () => {
   console.log(email.value, password.value);
+  const { valid } = await loginForm.value.validate();
+  if (!valid) return;
+
+  try {
+    const res = await useApi<{
+      success: boolean;
+      token: { access_token: string; refresh_token: string };
+    }>({
+      method: 'POST',
+      url: '/auth/login',
+      body: {
+        email: email.value,
+        password: password.value,
+      },
+    });
+    if (res.success) {
+      const { setToken } = useToken();
+      setToken('access', res.token.access_token);
+      setToken('refresh', res.token.refresh_token);
+    }
+    console.log(res);
+  } catch (err) {
+    if (err instanceof Error) {
+      console.error(err);
+      console.error(err.message);
+    }
+  }
 };
 
 const handleGoogleLogin = () => {
@@ -28,12 +59,17 @@ const handleSignUp = () => {
 <template>
   <v-sheet class="mx-auto" width="500">
     <SignUp :is-open="isSignUp" @update:is-open="isSignUp = $event" />
-    <v-form>
+    <v-form ref="loginForm">
       <v-card class="">
         <v-card-title>Login</v-card-title>
         <v-card-text>
-          <v-text-field v-model="email" label="Email" />
-          <v-text-field v-model="password" label="Password" />
+          <v-text-field v-model="email" label="Email" :rules="[emailRules]" />
+          <v-text-field
+            v-model="password"
+            label="Password"
+            type="password"
+            :rules="[passwordRules]"
+          />
         </v-card-text>
         <v-card-actions class="d-flex flex-column gap-2">
           <v-btn block color="primary" variant="flat" @click="handleLogin">
