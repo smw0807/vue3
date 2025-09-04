@@ -5,7 +5,13 @@ type ApiType = {
   params?: { [key: string]: string };
   body?: { [key: string]: string };
 };
-export default function useApi({ method, url, params, body }: ApiType) {
+
+export default function useApi<T>({
+  method,
+  url,
+  params,
+  body,
+}: ApiType): Promise<T> {
   const config = useRuntimeConfig();
   const { getToken } = useToken();
   const accessToken = getToken('access');
