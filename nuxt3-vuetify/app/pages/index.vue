@@ -13,7 +13,7 @@ const cards = ['Today', 'Yesterday'];
 
               <template v-for="n in 6" :key="n">
                 <v-list-item>
-                  <template v-slot:prepend>
+                  <template #prepend>
                     <v-avatar color="grey-darken-1" />
                   </template>
 
