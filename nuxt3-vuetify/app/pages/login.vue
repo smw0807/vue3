@@ -50,6 +50,7 @@ const handleSignUp = () => {
             <v-btn variant="text" color="primary" @click="handleSignUp"
               >회원가입</v-btn
             >
+            <v-btn variant="text" @click="navigateTo('/')">돌아가기</v-btn>
           </p>
         </v-card-actions>
       </v-card>
