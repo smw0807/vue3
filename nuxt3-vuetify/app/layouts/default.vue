@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useUserStore } from '~/store/user';
-
-const userStore = useUserStore();
+import UserProfile from '~/components/UserProfile.vue';
 
 const links = [
   ['mdi-inbox-arrow-down', 'Inbox'],
@@ -22,24 +20,7 @@ const drawer = ref(true);
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer">
-      <v-sheet class="pa-4" color="grey-lighten-4">
-        <template v-if="userStore.user">
-          <v-avatar class="mb-4" color="grey-darken-1" size="64">
-            <v-img
-              v-if="userStore.user.profileImage"
-              :src="userStore.user.profileImage"
-            />
-            <p v-else class="text-white">{{ userStore.user.name.charAt(0) }}</p>
-          </v-avatar>
-
-          <div>{{ userStore.user.email }}</div>
-        </template>
-        <template v-else>
-          <v-btn color="primary" block @click="navigateTo('/login')"
-            >Login</v-btn
-          >
-        </template>
-      </v-sheet>
+      <UserProfile />
 
       <v-divider />
 
