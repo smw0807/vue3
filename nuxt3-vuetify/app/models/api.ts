@@ -1,3 +1,11 @@
+export type MethodType = 'GET' | 'POST' | 'PUT' | 'DELETE';
+export type ApiType = {
+  method: MethodType;
+  url: string;
+  params?: { [key: string]: string };
+  body?: { [key: string]: string };
+};
+
 export interface ApiResponse<T> {
   success: boolean;
   message: string;

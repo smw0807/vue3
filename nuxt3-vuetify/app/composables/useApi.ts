@@ -1,10 +1,4 @@
-type MethodType = 'GET' | 'POST' | 'PUT' | 'DELETE';
-type ApiType = {
-  method: MethodType;
-  url: string;
-  params?: { [key: string]: string };
-  body?: { [key: string]: string };
-};
+import type { ApiType } from '~/models/api';
 
 export default function useApi<T>({
   method,
