@@ -24,9 +24,15 @@ const drawer = ref(true);
     <v-navigation-drawer v-model="drawer">
       <v-sheet class="pa-4" color="grey-lighten-4">
         <template v-if="userStore.user">
-          <v-avatar class="mb-4" color="grey-darken-1" size="64" />
+          <v-avatar class="mb-4" color="grey-darken-1" size="64">
+            <v-img
+              v-if="userStore.user.profileImage"
+              :src="userStore.user.profileImage"
+            />
+            <p v-else class="text-white">{{ userStore.user.name.charAt(0) }}</p>
+          </v-avatar>
 
-          <div>john@google.com</div>
+          <div>{{ userStore.user.email }}</div>
         </template>
         <template v-else>
           <v-btn color="primary" block @click="navigateTo('/login')"

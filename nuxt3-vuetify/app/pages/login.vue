@@ -33,8 +33,8 @@ const handleLogin = async () => {
       const { setToken } = useToken();
       setToken('access', res.token.access_token);
       setToken('refresh', res.token.refresh_token);
+      navigateTo('/');
     }
-    console.log(res);
   } catch (err) {
     if (err instanceof Error) {
       console.error(err);

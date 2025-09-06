@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 
 export const useUserStore = defineStore('user', () => {
   // ================================ State ================================
-  const user = ref(null);
+  const user = ref();
   const state = { user };
 
   // ================================ Getters ================================
