@@ -3,7 +3,7 @@ import { useUserStore } from '~/store/user';
 import { useAuthStore } from '~/store/auth';
 
 export default defineNuxtRouteMiddleware(async (from) => {
-  if (from.path === '/login') {
+  if (from.path === '/login' || from.path === '/auth') {
     return;
   }
 
