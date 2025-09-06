@@ -33,7 +33,7 @@ export default function useApi<T>({
         );
       }
       // 토큰 재발급 시 Authorization 에 refreshToken 추가
-      if (method === 'POST' && url === '/auth/refreshToken') {
+      if (method === 'POST' && url === '/auth/refresh/token') {
         options.headers.set('Authorization', `Bearer ${refreshToken}`);
       }
     },

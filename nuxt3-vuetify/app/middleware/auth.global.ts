@@ -25,10 +25,6 @@ export default defineNuxtRouteMiddleware(async () => {
   // accessToken이 없으면 refreshToken 검증 후 토큰 재발급 후 사용자 상태 업데이트
   if (refreshToken) {
     // 토큰 재발급
-    const refreshToken = await authStore.refreshToken();
-    console.log(refreshToken);
-    // 토큰 재발급 성공 시 사용자 정보 업데이트
-    // 토큰 재발급 실패 시 사용자 상태 null 처리
-    // userStore.user = await useGetUserAuth();
+    await authStore.refreshToken();
   }
 });
