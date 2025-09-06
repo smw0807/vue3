@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import useToken from '~/composables/useToken';
+import { useAuthStore } from '~/store/auth';
+
 import { emailRules, passwordRules } from '~/utils/rules';
 
 import SignUp from '~/components/modal/SignUp.vue';
@@ -11,36 +12,14 @@ definePageMeta({
 const email = ref('');
 const password = ref('');
 const loginForm = ref();
+const authStore = useAuthStore();
 
 const handleLogin = async () => {
   console.log(email.value, password.value);
   const { valid } = await loginForm.value.validate();
   if (!valid) return;
 
-  try {
-    const res = await useApi<{
-      success: boolean;
-      token: { access_token: string; refresh_token: string };
-    }>({
-      method: 'POST',
-      url: '/auth/login',
-      body: {
-        email: email.value,
-        password: password.value,
-      },
-    });
-    if (res.success) {
-      const { setToken } = useToken();
-      setToken('access', res.token.access_token);
-      setToken('refresh', res.token.refresh_token);
-      navigateTo('/');
-    }
-  } catch (err) {
-    if (err instanceof Error) {
-      console.error(err);
-      console.error(err.message);
-    }
-  }
+  await authStore.login(email.value, password.value);
 };
 
 const handleGoogleLogin = () => {

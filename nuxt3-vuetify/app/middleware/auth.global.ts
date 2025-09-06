@@ -2,8 +2,11 @@ import useToken from '~/composables/useToken';
 import { useUserStore } from '~/store/user';
 import { useAuthStore } from '~/store/auth';
 
-export default defineNuxtRouteMiddleware(async () => {
-  console.log('####### auth.global');
+export default defineNuxtRouteMiddleware(async (from) => {
+  if (from.path === '/login') {
+    return;
+  }
+
   const userStore = useUserStore();
   const authStore = useAuthStore();
 

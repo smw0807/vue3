@@ -3,6 +3,7 @@ import { useUserStore } from '~/store/user';
 
 import useApi from '~/composables/useApi';
 import useToken from '~/composables/useToken';
+
 import type { ApiResponse, ApiTokenResponse } from '~/models/api';
 import type { User } from '~/models/user';
 
@@ -17,7 +18,26 @@ export const useAuthStore = defineStore('auth', () => {
 
   // ================================ Actions ================================
   // 로그인
-  const login = async () => {};
+  const login = async (email: string, password: string) => {
+    try {
+      const res = await useApi<ApiTokenResponse>({
+        method: 'POST',
+        url: '/auth/login',
+        body: {
+          email,
+          password,
+        },
+      });
+      if (res.success) {
+        const { setToken } = useToken();
+        setToken('access', res.token.access_token);
+        setToken('refresh', res.token.refresh_token);
+        navigateTo('/');
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
   // 토큰 검증
   const verifyToken = async () => {
     try {
