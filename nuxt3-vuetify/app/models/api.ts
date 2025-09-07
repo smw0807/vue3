@@ -17,3 +17,9 @@ export interface ApiTokenResponse {
   message: string;
   token: { access_token: string; refresh_token: string };
 }
+
+export interface OauthResponse {
+  success: boolean;
+  message: string;
+  url: string;
+}

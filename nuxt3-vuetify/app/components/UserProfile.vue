@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { useUserStore } from '~/store/user';
+import { useAuthStore } from '~/store/auth';
 
 const userStore = useUserStore();
+const authStore = useAuthStore();
 </script>
 <template>
   <v-sheet
@@ -18,7 +20,12 @@ const userStore = useUserStore();
       </v-avatar>
 
       <p class="text-subtitle-2">{{ userStore.user.name }}</p>
-      <div>{{ userStore.user.email }}</div>
+      <div>
+        {{ userStore.user.email }}
+      </div>
+      <v-btn variant="text" color="primary" @click="authStore.logout"
+        >로그아웃</v-btn
+      >
     </template>
     <template v-else>
       <v-btn color="primary" block @click="navigateTo('/login')">Login</v-btn>

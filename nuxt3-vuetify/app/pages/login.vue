@@ -22,12 +22,12 @@ const handleLogin = async () => {
   await authStore.login(email.value, password.value);
 };
 
-const handleGoogleLogin = () => {
-  console.log('Google 로그인');
+const handleGoogleLogin = async () => {
+  await authStore.requestGoogleLogin();
 };
 
-const handleKakaoLogin = () => {
-  console.log('Kakao 로그인');
+const handleKakaoLogin = async () => {
+  await authStore.requestKakaoLogin();
 };
 
 const isSignUp = ref(false);

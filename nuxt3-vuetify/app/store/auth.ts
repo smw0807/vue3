@@ -4,12 +4,16 @@ import { useUserStore } from '~/store/user';
 import useApi from '~/composables/useApi';
 import useToken from '~/composables/useToken';
 
-import type { ApiResponse, ApiTokenResponse } from '~/models/api';
+import type {
+  ApiResponse,
+  ApiTokenResponse,
+  OauthResponse,
+} from '~/models/api';
 import type { User } from '~/models/user';
 
 export const useAuthStore = defineStore('auth', () => {
   const userStore = useUserStore();
-  const { setToken } = useToken();
+  const { setToken, removeToken } = useToken();
   // ================================ State ================================
   const state = {};
 
@@ -72,6 +76,87 @@ export const useAuthStore = defineStore('auth', () => {
       console.error(err);
     }
   };
-  const actions = { login, verifyToken, refreshToken };
+  // 로그아웃
+  const logout = () => {
+    removeToken('access');
+    removeToken('refresh');
+    userStore.user = null;
+  };
+  // 구글 로그인
+  const requestGoogleLogin = async () => {
+    try {
+      const res = await useApi<OauthResponse>({
+        method: 'GET',
+        url: '/auth/google/signin',
+      });
+      if (res.success) {
+        window.location.href = res.url;
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  // 구글 로그인 처리
+  const handleGoogleLogin = async (code: string) => {
+    try {
+      const res = await useApi<ApiTokenResponse>({
+        method: 'GET',
+        url: '/auth/google/callback',
+        params: {
+          code,
+        },
+      });
+      if (res.success) {
+        setToken('access', res.token.access_token);
+        setToken('refresh', res.token.refresh_token);
+        navigateTo('/');
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  // 카카오 로그인
+  const requestKakaoLogin = async () => {
+    try {
+      const res = await useApi<OauthResponse>({
+        method: 'GET',
+        url: '/auth/kakao/signin',
+      });
+      if (res.success) {
+        window.location.href = res.url;
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  // 카카오 로그인 처리
+  const handleKakaoLogin = async (code: string) => {
+    try {
+      const res = await useApi<ApiTokenResponse>({
+        method: 'GET',
+        url: '/auth/kakao/callback',
+        params: {
+          code,
+        },
+      });
+      if (res.success) {
+        setToken('access', res.token.access_token);
+        setToken('refresh', res.token.refresh_token);
+        navigateTo('/');
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  const actions = {
+    login,
+    verifyToken,
+    refreshToken,
+    logout,
+    requestGoogleLogin,
+    handleGoogleLogin,
+    requestKakaoLogin,
+    handleKakaoLogin,
+  };
   return { ...state, ...getters, ...actions };
 });
